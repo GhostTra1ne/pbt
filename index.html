@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<link rel="icon" type="image/png" href="favicon.png">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pussy Boys Team</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;scroll-behavior:smooth}
+:root{
+  --gold:#f2d19b;
+  --gold2:#d9b06d;
+  --line:rgba(218,181,116,.28);
+  --panelTop:rgba(35,20,18,.96);
+  --panelBottom:rgba(16,10,10,.96);
+}
+body{
+  min-height:100vh;
+  font-family:Georgia,"Times New Roman",serif;
+  color:#f2dfbf;
+  background:linear-gradient(rgba(20,12,10,.12),rgba(10,8,8,.34)),url('bg.jpg') center top / cover no-repeat fixed;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle at 50% 18%, rgba(255,210,140,.12), transparent 32%),linear-gradient(rgba(0,0,0,.04), rgba(0,0,0,.16));
+  z-index:0;
+}
+#bgFx{position:fixed;inset:0;pointer-events:none;z-index:0}
+.page{position:relative;z-index:1;width:min(1450px,calc(100% - 26px));margin:0 auto;padding:10px 0 34px}
+.ambient-lights{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.light-beam{position:absolute;top:-20vh;width:28vw;height:140vh;filter:blur(18px);opacity:.18;mix-blend-mode:screen;background:linear-gradient(180deg, rgba(255,204,136,.34), rgba(255,130,50,.08) 45%, transparent 88%);animation:beamFloat 13s ease-in-out infinite}
+.light-beam.left{left:-6vw;transform:rotate(-16deg);animation-delay:-2s}
+.light-beam.right{right:-7vw;transform:rotate(14deg);animation-delay:-7s}
+.ember-orb{position:absolute;width:28vmax;height:28vmax;border-radius:999px;background:radial-gradient(circle, rgba(255,170,90,.16), rgba(255,120,50,.06) 36%, transparent 72%);filter:blur(18px);opacity:.55;animation:orbPulse 10s ease-in-out infinite}
+.ember-orb.one{left:-8vmax;bottom:-6vmax}
+.ember-orb.two{right:-10vmax;top:8vh;animation-delay:-5s}
+@keyframes beamFloat{0%,100%{transform:translateY(0) rotate(-16deg) scale(1)}50%{transform:translateY(3vh) rotate(-12deg) scale(1.04)}}
+@keyframes orbPulse{0%,100%{transform:scale(1);opacity:.42}50%{transform:scale(1.12);opacity:.64}}
+.topbar{display:flex;justify-content:flex-end;margin-bottom:6px}
+.about-link{display:inline-block;background:transparent;border:none;padding:0;cursor:pointer}
+.topbar img{width:160px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45));transition:transform .22s ease,filter .22s ease}
+.topbar img:hover{transform:translateY(-1px) scale(1.03);filter:drop-shadow(0 8px 18px rgba(0,0,0,.45)) drop-shadow(0 0 14px rgba(255,175,80,.22))}
+.stage{display:flex;flex-direction:column;align-items:center}
+.banner-wrap{position:relative;width:min(1350px,96vw);aspect-ratio:1919 / 768;margin-bottom:14px;filter:drop-shadow(0 20px 40px rgba(0,0,0,.60));overflow:hidden}
+.banner-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;user-select:none;pointer-events:none}
+.banner-fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.about-board{position:relative;width:min(980px,92vw);margin-top:12px}
+.reveal{opacity:0;transform:translateY(26px) scale(.985);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0) scale(1)}
+.about-board img{display:block;width:100%;height:auto;filter:drop-shadow(0 16px 24px rgba(0,0,0,.24))}
+.gold{width:min(700px,62vw);margin-top:28px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+.tag-flag-wrap{width:min(760px,88vw);margin:24px auto 8px;display:flex;align-items:center;justify-content:center;gap:22px}
+.side-flag{width:min(150px,18vw);display:flex;justify-content:center}
+.side-flag .flag-wrap{position:relative;display:inline-block;transform-origin:top center;animation:flagSway 5.5s ease-in-out infinite;filter:drop-shadow(0 0 16px rgba(255,120,60,.14)) drop-shadow(0 18px 24px rgba(0,0,0,.38))}
+.side-flag.right .flag-wrap{animation-delay:-2.2s}
+.side-flag .flag-wrap::after{content:"";position:absolute;inset:10% 18%;border-radius:18px;background:radial-gradient(circle, rgba(255,120,60,.18), transparent 60%);filter:blur(20px);pointer-events:none}
+.side-flag img{position:relative;z-index:1;width:min(120px,14vw);height:auto}
+.tag-label-box{padding:12px 28px;border-radius:16px;background:linear-gradient(180deg, rgba(36,20,18,.92), rgba(12,8,8,.92));border:2px solid rgba(220,182,120,.38);box-shadow:0 0 0 2px rgba(0,0,0,.85),0 16px 22px rgba(0,0,0,.32),inset 0 0 14px rgba(255,170,80,.06)}
+.tag-label{font-size:clamp(24px,2.4vw,38px);color:var(--gold);letter-spacing:1px;text-shadow:0 2px 10px rgba(0,0,0,.6),0 0 14px rgba(255,180,90,.08);white-space:nowrap}
+@keyframes flagSway{0%,100%{transform:rotate(-1deg) translateY(0)}50%{transform:rotate(1.4deg) translateY(-3px)}}
+.roster-stand{margin-top:18px;width:min(1380px,97vw);padding:22px;border-radius:26px;background:linear-gradient(180deg, rgba(48,26,20,.48), rgba(18,10,10,.74));border:1px solid rgba(218,181,116,.24);box-shadow:0 18px 34px rgba(0,0,0,.34),inset 0 0 0 1px rgba(255,220,150,.04);position:relative;overflow:visible}
+.roster-stand::before{content:"";position:absolute;inset:10px;border-radius:20px;border:1px solid rgba(218,181,116,.16);pointer-events:none}
+.roster-stand::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 35%, rgba(255,180,100,.08), transparent 42%),linear-gradient(180deg, rgba(255,220,180,.03), transparent 20%, transparent 80%, rgba(0,0,0,.12));pointer-events:none}
+.roster-stand .shimmer{position:absolute;inset:-10% auto -10% -20%;width:32%;background:linear-gradient(90deg, transparent, rgba(255,220,160,.08), rgba(255,255,255,.16), rgba(255,220,160,.08), transparent);transform:skewX(-18deg);filter:blur(6px);opacity:.55;pointer-events:none;animation:standSweep 9s linear infinite}
+@keyframes standSweep{0%{left:-30%}100%{left:115%}}
+.roster-inner{position:relative;z-index:1}
+.roster-inner::before{content:"";position:absolute;left:50%;top:22%;transform:translateX(-50%);width:70%;height:180px;background:radial-gradient(circle, rgba(255,170,100,.08), transparent 70%);filter:blur(26px);pointer-events:none}
+.cards{margin-top:6px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px 16px;align-items:end;justify-items:center}
+.card-shell{position:relative;width:min(100%,220px);display:flex;justify-content:center;align-items:flex-end;cursor:pointer;-webkit-tap-highlight-color:transparent;padding:12px;margin:-12px;border:none;background:transparent}
+.card-shell::after{content:"";position:absolute;inset:auto 10px -6px 10px;height:28px;border-radius:999px;background:radial-gradient(circle, rgba(255,180,80,.34), transparent 72%);opacity:0;filter:blur(11px);transform:scale(.82);transition:opacity .25s ease,transform .25s ease;pointer-events:none}
+.card-shell.active::after{opacity:1;transform:scale(1.08)}
+.card{display:block;width:min(100%,220px);transition:transform .24s ease,filter .24s ease,opacity .24s ease;cursor:pointer;filter:drop-shadow(0 12px 20px rgba(0,0,0,.35));transform-origin:center bottom;border-radius:14px;position:relative;z-index:1;user-select:none;-webkit-user-drag:none}
+.card-shell:hover .card{transform:translateY(-6px) scale(1.08);filter:drop-shadow(0 0 18px rgba(255,190,100,.35)) drop-shadow(0 18px 28px rgba(0,0,0,.5))}
+.card-shell:hover::after{opacity:1;transform:scale(1.12)}
+.cards:hover .card-shell:not(:hover) .card{opacity:.62}
+.card.active{opacity:1;transform:scale(1.04);filter:drop-shadow(0 0 26px rgba(255,198,110,.46)) drop-shadow(0 0 54px rgba(255,150,50,.18)) drop-shadow(0 16px 28px rgba(0,0,0,.44));animation:cardPulse 2.6s ease-in-out infinite}
+@keyframes cardPulse{0%,100%{transform:scale(1.04)}50%{transform:scale(1.06)}}
+.controls{margin-top:18px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+.ctrl-btn{border:1px solid var(--line);background:linear-gradient(180deg, rgba(48,27,23,.86), rgba(20,10,10,.92));color:var(--gold);min-width:54px;height:46px;padding:0 16px;border-radius:12px;cursor:pointer;font-size:18px;box-shadow:0 10px 18px rgba(0,0,0,.26);transition:transform .18s ease,filter .18s ease,border-color .18s ease}
+.ctrl-btn:hover{transform:translateY(-1px);filter:brightness(1.06);border-color:rgba(255,205,120,.4)}
+.ctrl-btn.active-toggle{box-shadow:0 0 16px rgba(255,180,80,.2),0 10px 18px rgba(0,0,0,.26)}
+.indicators{display:flex;gap:8px;margin-top:14px;justify-content:center;flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:999px;background:rgba(255,220,160,.24);border:1px solid rgba(255,220,160,.18);transition:transform .18s ease,background .18s ease,box-shadow .18s ease;cursor:pointer}
+.dot.active{background:rgba(255,205,120,.95);box-shadow:0 0 12px rgba(255,185,90,.45);transform:scale(1.2)}
+.apply{display:block;width:min(560px,58vw);margin:30px auto 0;filter:drop-shadow(0 0 22px rgba(255,170,76,.16)) drop-shadow(0 14px 24px rgba(0,0,0,.45));transition:.2s ease;cursor:pointer}
+.apply:hover{transform:scale(1.03)}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50}
+body.focus-mode #bgFx,body.focus-mode .ambient-lights{opacity:.18;transition:opacity .3s ease}
+body.focus-mode .stage{transform:scale(.992)}
+#characterModal.open .modal-window{box-shadow:0 22px 48px rgba(0,0,0,.54),0 0 48px rgba(255,170,80,.14)}
+.modal.open{display:flex}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(6px)}
+.modal-window{position:relative;z-index:2;width:min(980px,94vw);max-height:min(88vh,980px);overflow:auto;padding:28px 30px 24px;border-radius:20px;background:radial-gradient(circle at top center, rgba(255,160,70,.06), transparent 30%),linear-gradient(180deg, var(--panelTop), var(--panelBottom));border:1px solid rgba(218,181,116,.35);box-shadow:0 18px 40px rgba(0,0,0,.45),0 0 24px rgba(255,170,80,.08);color:#f2dfbf;animation:modalIn .22s ease}
+.modal-window::before{content:"";position:absolute;inset:10px;border-radius:14px;border:1px solid rgba(255,220,160,.10);pointer-events:none}
+.modal-window h2{position:relative;margin:0 0 18px;color:#f2d19b;font-size:clamp(28px,3vw,40px);text-align:center;letter-spacing:.4px}
+.modal-text{font-size:clamp(18px,1.7vw,24px);line-height:1.6;max-height:50vh;overflow-y:auto;padding-right:6px}
+.modal-text p{margin:0 0 12px}
+.modal-text b{color:#f4ca86}
+.modal-text::-webkit-scrollbar{width:6px}
+.modal-text::-webkit-scrollbar-thumb{background:rgba(255,180,80,.4);border-radius:6px}
+.modal-close{position:absolute;top:12px;right:14px;width:42px;height:42px;border-radius:10px;border:1px solid rgba(218,181,116,.28);background:linear-gradient(180deg, rgba(48,27,23,.86), rgba(20,10,10,.92));color:#f2d19b;cursor:pointer;font-size:20px}
+.modal-close:hover{filter:brightness(1.08)}
+.character-grid{display:grid;grid-template-columns:minmax(180px,260px) 1fr;gap:20px;align-items:start}
+.character-grid img{width:100%;border-radius:16px;filter:drop-shadow(0 12px 20px rgba(0,0,0,.35))}
+.character-role{color:var(--gold2);font-size:clamp(20px,1.8vw,26px);margin-bottom:10px}
+.character-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tab-btn{border:1px solid var(--line);background:linear-gradient(180deg, rgba(48,27,23,.82), rgba(20,10,10,.90));color:var(--gold);padding:10px 14px;border-radius:12px;cursor:pointer;font-size:16px}
+.tab-btn.active{box-shadow:0 0 14px rgba(255,180,80,.18);border-color:rgba(255,205,120,.38)}
+.character-sound{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full{grid-column:1 / -1}
+.form-field label{display:block;margin-bottom:6px;color:var(--gold)}
+.form-field input,.form-field textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(218,181,116,.24);background:rgba(15,10,10,.72);color:#f2dfbf;font:inherit}
+.form-field textarea{min-height:120px;resize:vertical}
+.submit-row{margin-top:18px;display:flex;gap:12px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+.submit-status{color:#f4ca86;font-size:15px}
+.form-btn{border:1px solid var(--line);background:linear-gradient(180deg, rgba(48,27,23,.92), rgba(20,10,10,.96));color:var(--gold);min-width:120px;height:46px;padding:0 18px;border-radius:12px;cursor:pointer;font-size:18px;box-shadow:0 10px 18px rgba(0,0,0,.26)}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media (max-width:1200px){
+  .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media (max-width:980px){
+  .page{width:calc(100% - 20px)}
+  .cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}
+  .card,.card-shell{width:min(100%,210px)}
+  .gold{width:min(560px,74vw)}
+  .apply{width:min(440px,72vw)}
+  .character-grid,.form-grid{grid-template-columns:1fr}
+  .tag-flag-wrap{gap:10px}
+  .modal-window{width:min(94vw,820px);padding:24px 22px 20px}
+}
+@media (max-width:760px){
+  body{background-attachment:scroll;background-position:center top}
+  .page{width:calc(100% - 16px);padding:8px 0 20px}
+  .topbar{justify-content:center;margin-bottom:10px}
+  .topbar img{width:122px}
+  .banner-wrap{width:min(100%,96vw);margin-bottom:10px}
+  .about-board{width:min(100%,96vw);margin-top:8px}
+  .gold{width:min(92vw,520px);margin-top:18px}
+  .tag-flag-wrap{gap:8px;flex-wrap:nowrap}
+  .side-flag img{width:min(72px,14vw)}
+  .tag-label{font-size:clamp(16px,4.2vw,24px);white-space:normal;text-align:center}
+  .tag-label-box{padding:10px 14px;width:min(100%,420px)}
+  .roster-stand{width:min(100%,96vw);padding:16px 12px 14px;border-radius:20px;margin-top:14px}
+  .roster-stand::before{inset:8px;border-radius:15px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}
+  .card,.card-shell{width:min(100%,190px)}
+  .controls{gap:8px;margin-top:14px}
+  .ctrl-btn{min-width:48px;height:44px;padding:0 14px;border-radius:10px;font-size:17px}
+  .indicators{margin-top:12px;gap:7px}
+  .dot{width:11px;height:11px}
+  .apply{width:min(86vw,380px);margin-top:20px}
+  .modal-window{width:min(96vw,680px);max-height:min(90vh,980px);padding:20px 16px 16px;border-radius:18px}
+  .modal-window h2{margin-bottom:14px}
+  .modal-text{font-size:16px;line-height:1.55;max-height:48vh}
+  .character-role{font-size:20px}
+  .character-tabs,.character-sound{gap:8px}
+  .tab-btn,.form-btn{min-height:44px;font-size:15px}
+  .form-field input,.form-field textarea{padding:11px 12px;font-size:16px}
+  .submit-row{justify-content:stretch}
+}
+@media (max-width:520px){
+  .page{width:calc(100% - 12px)}
+  .tag-flag-wrap{flex-direction:column}
+  .side-flag{display:none}
+  .roster-stand{padding:14px 10px 12px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 8px}
+  .card,.card-shell{width:min(100%,168px)}
+  .card-shell:hover .card{transform:translateY(-2px) scale(1.03)}
+  .card.active{transform:scale(1.02)}
+  .controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%}
+  .ctrl-btn{min-width:0;width:100%;padding:0;height:42px}
+  .character-grid img{max-width:220px;margin:0 auto}
+  .character-sound{display:grid;grid-template-columns:1fr;gap:8px}
+  .form-grid{gap:12px}
+  .submit-row{flex-direction:column;align-items:stretch}
+  .submit-status{text-align:center}
+}
+@media (max-width:380px){
+  .cards{grid-template-columns:1fr}
+  .card,.card-shell{width:min(78vw,240px)}
+  .controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #playBtn,#pauseBtn{grid-column:span 1}
+  #soundBtn{grid-column:span 1}
+  #prevBtn{grid-column:1 / 2}
+  #nextBtn{grid-column:3 / 4}
+}
+
+@media (hover:none){
+  .cards:hover .card-shell:not(.active) .card{opacity:1;transform:none}
+  .card-shell:hover .card{transform:none;filter:drop-shadow(0 12px 20px rgba(0,0,0,.35))}
+  .card-shell:hover::after{opacity:0;transform:scale(.82)}
+}
+
+/* CUSTOM PNG CURSOR */
+body {
+  cursor: url('cursor.png') 4 4, auto;
+}
+
+button, a, .card {
+  cursor: url('cursor.png') 4 4, pointer;
+}
+
+</style>
+</head>
+<body>
+<audio id="metalHitAudio" preload="auto">
+  <source src="metal-hit.mp3" type="audio/mpeg">
+</audio>
+<canvas id="bgFx"></canvas>
+<div class="ambient-lights" aria-hidden="true">
+  <div class="light-beam left"></div>
+  <div class="light-beam right"></div>
+  <div class="ember-orb one"></div>
+  <div class="ember-orb two"></div>
+</div>
+
+<div class="page">
+  <div class="topbar">
+    <button class="about-link" id="aboutOpenBtn" aria-label="О нас">
+      <img src="about.png" alt="О нас" />
+    </button>
+  </div>
+
+  <div class="stage">
+    <div class="banner-wrap" id="bannerWrap">
+      <img class="banner-img" src="banner.png" alt="Pussy Boys Team" />
+      <canvas class="banner-fx" id="bannerFx"></canvas>
+    </div>
+
+    <div class="about-board reveal" id="about-block">
+      <img src="wood.png" alt="Доска Кто мы" />
+    </div>
+
+    <img class="gold reveal" src="gold.png" alt="Золотой состав" />
+
+    <div class="tag-flag-wrap reveal">
+      <div class="side-flag left">
+        <div class="flag-wrap"><img src="flag.png" alt="UaSquad flag" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="tag-label-box">
+        <div class="tag-label">TAG: UaSquad</div>
+      </div>
+      <div class="side-flag right">
+        <div class="flag-wrap"><img src="flag.png" alt="UaSquad flag" onerror="this.style.display='none'"></div>
+      </div>
+    </div>
+
+    <div class="roster-stand reveal">
+      <div class="shimmer"></div>
+      <div class="roster-inner">
+        <div class="cards" id="cards"></div>
+        <div class="controls">
+          <button class="ctrl-btn" id="prevBtn" title="Предыдущий">⟵</button>
+          <button class="ctrl-btn active-toggle" id="playBtn" title="Запустить авто">▶</button>
+          <button class="ctrl-btn" id="pauseBtn" title="Пауза авто">⏸</button>
+          <button class="ctrl-btn active-toggle" id="soundBtn" title="Звук">🔊</button>
+          <button class="ctrl-btn" id="nextBtn" title="Следующий">⟶</button>
+        </div>
+        <div class="indicators" id="indicators"></div>
+      </div>
+    </div>
+
+    <img class="apply reveal" src="apply.png" alt="Подать заявку" id="applyOpenBtn" />
+  </div>
+</div>
+
+<div class="modal" id="aboutModal">
+  <div class="modal-backdrop" id="aboutBackdrop"></div>
+  <div class="modal-window">
+    <button class="modal-close" id="aboutCloseBtn" aria-label="Закрыть">✕</button>
+    <h2>О Pussy Boys Team</h2>
+    <div class="modal-text">
+      <p><b>Кто мы:</b> Обычная ебанутая конста. Не идеальные, не святые — просто пачка, которая каким-то хуем работает.</p> <p><b>Наш стиль:</b> Любим подраться, любим залететь без плана, любим делать хуйню… но иногда, сука, делаем идеально и сами в ахуе.</p> <p><b>Как играем:</b> Сегодня мы боги, завтра клоуны. Кто-то жмёт кнопки, кто-то орёт, кто-то лежит ебалом в пол — классика.</p> <p><b>Позиция:</b> Нам похуй на “правильную” игру. Мы не про гайды и теорию. Мы про вайб, крики в ТС и файты, где всё идёт через жопу, но мы всё равно вывозим.</p> <p><b>Цель:</b> Пиздить, не развалиться, и чтобы было что вспоминать, а не просто “ну пофармили и разошлись”.</p> <p><b>Кого ищем:</b> Не нытиков, токсиков. Нужны живые люди, с онлайном, с юмором и с яйцами. Если ты готов играть в команде, а не стоять как НПЦ — ждем!</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="characterModal">
+  <div class="modal-backdrop" id="characterBackdrop"></div>
+  <div class="modal-window">
+    <button class="modal-close" id="characterCloseBtn" aria-label="Закрыть">✕</button>
+    <h2 id="characterTitle">Персонаж</h2>
+    <div class="character-grid">
+      <img id="characterImage" src="" alt="Персонаж">
+      <div>
+        <div class="character-role" id="characterRole"></div>
+        <div class="character-tabs">
+          <button class="tab-btn active" data-tab="desc">Описание</button>
+          <button class="tab-btn" data-tab="notes">Заметки</button>
+                  </div>
+        <div class="modal-text" id="characterTextBox">
+          <p id="characterText"></p>
+        </div>
+        <div class="character-sound">
+          <button class="form-btn" id="replaySoundBtn">▶ Проиграть звук</button>
+          <button class="form-btn" id="stopSoundBtn">⏹ Остановить звук</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="applyModal">
+  <div class="modal-backdrop" id="applyBackdrop"></div>
+  <div class="modal-window">
+    <button class="modal-close" id="applyCloseBtn" aria-label="Закрыть">✕</button>
+    <h2>Подать заявку</h2>
+    <form id="applyForm">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="nickname">Ник</label>
+          <input id="nickname" name="nickname" required>
+        </div>
+        <div class="form-field">
+          <label for="telegram">Telegram</label>
+          <input id="telegram" name="telegram" required>
+        </div>
+        <div class="form-field">
+          <label for="classRole">Класс / роль</label>
+          <input id="classRole" name="class_role" required>
+        </div>
+        <div class="form-field">
+          <label for="prime">Прайм / онлайн</label>
+          <input id="prime" name="prime" required>
+        </div>
+        <div class="form-field">
+          <label for="age">Возраст</label>
+          <input id="age" name="age" required>
+        </div>
+        <div class="form-field">
+          <label for="experience">Опыт / сервер</label>
+          <input id="experience" name="experience" required>
+        </div>
+        <div class="form-field full">
+          <label for="aboutPlayer">Пару слов о себе</label>
+          <textarea id="aboutPlayer" name="about_player" required></textarea>
+        </div>
+      </div>
+      <div class="submit-row">
+        <div class="submit-status" id="submitStatus"></div>
+        <button class="form-btn" type="submit">Отправить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const PLACEHOLDER_SVG = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='500' height='800' viewBox='0 0 500 800'><defs><linearGradient id='g' x1='0' x2='0' y1='0' y2='1'><stop offset='0%' stop-color='#4a2a1d'/><stop offset='100%' stop-color='#1b0f0d'/></linearGradient></defs><rect width='100%' height='100%' rx='26' fill='url(#g)'/><rect x='14' y='14' width='472' height='772' rx='18' fill='none' stroke='#c69557' stroke-width='3' opacity='0.75'/><text x='50%' y='46%' text-anchor='middle' fill='#f2d19b' font-size='34' font-family='Georgia'>PLACEHOLDER</text><text x='50%' y='53%' text-anchor='middle' fill='#c69557' font-size='20' font-family='Georgia'>Добавь PNG карточку</text></svg>`);
+
+const players = [
+  { name:'Hex', role:'EE', image:['hex.png','Hex.png','HEX.png'], sound:['hex.mp3','Hex.mp3','HEX.mp3'], text:`По факту он не играет в Lineage 2 — он там работает без выходных, отпуска и шансов на нормальную жизнь.
+Глава Pussy Boys Team — человек, который может за 5 минут придумать план уровня “мы сейчас разъебём сервер”, а через 10 минут вся пачка уже лежит ебалом в пол. Стратег, аналитик и главный поставщик хуйни  одновременно.
+Выглядит “довольно красиво как для урода” — это когда ты смотришь и вроде норм, а потом понимаешь, что тебя где-то наебали, но не можешь объяснить где именно.
+Человек важности уровня главы государства. Даже донатит в игру через Пенсионный фонд.
+Полгода обещает сделать видео “итоги сезона на MW”. На текущий момент готовность — 146%. Осталось только, блядь, начать. Это уже не обещание — это легенда, миф, местный фольклор.
+Любит делать сайты про Pussy Boys больше, чем играть, потому что там хотя бы можно нажать “обновить” и не получить пизды от рандомов.`, notes:`● Много пиздит
+● Любит точность и порядок
+● Смешно шутит` },
+  { name:'IIay3a', role:'Гладиатор', image:['pauza.png','Pauza.png','PAUZA.png'], sound:['IIay3a.mp3','iIay3a.mp3','IIAY3A.mp3'], text:` Смотри внимательно.
+Ты видишь перед собой игрока?
+Или ебучую радиостанцию без кнопки выключить?
+Можешь представить, сколько слов он сказал за день?
+Или ты уже сбился после первой тысячи?
+Он играет?
+Или он просто параллельно ведёт форум, телеграм, переговоры и ещё успевает пиздеть в ТС?
+Ты думаешь, он занят?
+Или он просто везде сразу?
+Посмотри ещё раз.
+Этот человек… Потенциальный операционный директор "Суши Клаб Солёное" и двигатель пачки. `, notes:`● Говорит правду в лоб
+● Жёсткий приколист
+● Есть бронь`, lore:`Гладиатор, который считает, что лучшая защита — это ещё одна атака.` },
+  { name:'Anamay', role:'Биш', image:['anamay.png','Anamay.png','ANAMAY.png'], sound:['anamay.mp3','Anamay.mp3','ANAMAY.mp3'], text:`Родился, вырос, всё как у людей. Переехал в Германию, стал правых взглядов. Мечтал стать художником. Потом работа, семья, ребёнок.
+Долгое время играл в Lineage. Стабильно, уверенно, понимал игру, чувствовал тайминги. Уважаемый человек в пачке.
+Но в какой-то момент ему стало мало.
+Бросил всё. Жену. Ребёнка. Пак.  И ушёл в Доту. Просто потому что внутри сидело твёрдое: «Я могу больше».
+Старт — около 1500 ммр. 38 лет. Уже не юнец, но с холодной головой, железной дисциплиной и взглядом человека, которому нечего терять.
+Говорят, первые полгода он почти не выходил из дома. Тренировки по 12–14 часов. Восемь реплей в день минимум. Анализ, тайминги, механика, макро. Всё заново. Как будто начинал жизнь с чистого листа.
+Сейчас ему уже за сорок, а он всё ещё лезет вверх. Медленно, тяжело, но без остановки. Иногда в голосе проскальзывает усталость, но в глазах — тот же огонь.
+Легенда пачки. Настоящий талант. Человек, который в том возрасте, когда большинство уже давно смирилось, решил, что его главная история ещё не написана.`, notes:`● Умный.
+● Вес 126 килограмм. 
+● Моральный урон команде.`, lore:`Если враг думал, что бой уже выигран, значит он просто не заметил Anamay.` },
+  { name:'Marcus', role:'Гладиатор', image:['Marcus.png','marcus.png','MARCUS.png'], sound:['marcus.mp3','Marcus.mp3','MARCUS.mp3'], text:`Предприимчивый мужик. Владелец сети ресторанов, добрый, отзывчивый, всегда поможет советом или баблом. Служил в спецназе, участвовал в нескольких антитеррористических операциях. Больше трёхсот подтверждённых убийств. Готовили к партизанской войне, был лучшим снайпером во всей армии.
+И как, сука, в эту хуйню можно поверить?
+А потом ты заходишь на прайм и всё сразу становится на место.
+Этот гений прижимает ТП в тот момент, когда ты только карту открыл. Подождать команду? Да хуй там. Он уже влетел в толпу с криком «ЩА Я ЧЕКНУ!» посреди Хатума, будто это зачистка блокпоста.
+Требует дайте мне хил, я их всех вынесу. Иногда действительно выносит. Чаще красиво умирает первым, ломает икар дуалы +8, на второй день после их ввода и потом полчаса объясняет, как бы он всех разъебал, если бы не !!!!!
+Если бы не его «успешные» заточки нашего фаворита, в Гиране до сих пор не было бы нормальных кристаллов. Потому что Marcus не фармит. Marcus воюет. Всегда. Везде. Даже когда надо просто поторговать.
+Легенда. Полностью невменяемый. Но свой до костей.`, notes:`●Богатый.
+ ●Лудик.
+ ●Штурмовик.`, lore:`Лор для Marcus.` },
+  { name:'DeMuerte', role:'Берс', image:['DeMuerte.png','demuerte.png','DEMUERTE.png'], sound:['demuerte.mp3','DeMuerte.mp3','DEMUERTE.mp3'], text:`Буйный. Сука, реально шарит в игре. В реале — спортивный здоровяк, качается, морда кирпичом, взгляд такой, что сразу хочется встать по стойке «смирно». А в Л2 он берсерк. Настоящий. Знает, что делать, всегда. Даже когда все вокруг в панике — DeMuerte уже летит вперёд.
+В своё время он закосплеил Итачи из Учиха. Перерезал половину своего клана, чтобы получить мангёку шаринган. Не в шутку. Реально. Чат в ахуе, а Ярик стоит в чёрном плаще, с красными глазами и спокойно говорит: «Аматерасу».  Резкий, как удар серпом по яйцам, и жесткий, как удар молотом.`, notes:`●Рост 2м+.
+●Единственный с пачки кто сделает больше 10 отжиманий.
+●Носит травмат. `, lore:`Лор для DeMuerte.` },
+  { name:'RazvalEbal', role:'СВС', image:['razvalebal.png','RazvalEbal.png','RAZVALEBAL.png'], sound:['razvalebal.mp3','RazvalEbal.mp3','RAZVALEBAL.mp3'], text:`Кирюха, блять, RazvalEbal —  это диагноз.
+Решил, что прайм с 23:00 — «так удобнее». Стоит на макросе, как NPC из таверны, только вместо реплик — вечное «я щас, сек».
+Ты орёшь: «КИРЮХА, ДЕНСЫ!», а он где-то жрёт, курит или просто исчез в астрале. Наш SWS по паспорту, а в душе — ДД. Мечтает резать, мечтает дамажить.Но в  файтах — бог. Танцы ложатся идеально, тайминги секунда в секунду, пальцы всё помнят, даже когда мозг давно в отключке. В чате тишина, в ТС пустота, а Кирюха уже в Расте строит хату с соломы и печкой. Lineage для него — так, промежуточная станция. Мечтает лутать бочки и рубить деревья.
+Кофе готовит только из свежайшего молока и каждый раз идёт доить Вола, перед этим хорошенько его выебав.
+Но когда начинается настоящий пиздец и всё горит — RazvalEbal возвращается. Как призрак. Как баг в системе. И начинает ебать. И ты сидишь и думаешь: «Сука, как?!»
+А это просто Кирюха АФК-легенда. Наш RazvalEbal.`, notes:`●Пунктуальный.
+●Стабильный. 
+●Надёжный. `, lore:`Лор для RazvalEbal.` },
+  { name:'KingGayOrgyes', role:'ШК', image:['Player7.png','player7.png','Player7.PNG','player7.PNG'], sound:['Player7.mp3','player7.mp3','Player7.MP3','player7.MP3'], text:`Коля — танк, блять, не человек, а Шрек из болота. 
+Рыгает в микрофон — у всего КП микроинфаркт.
+«ХРРРГКХААААА» — и это, сука, не шутка. Это официальный саундтрек каждого файта. Колин фирменный трек.
+Несёт такую хуйню, что даже священник в голос крестится. Фразы без начала, без конца, без смысла.
+Гавкает, бурчит, булькает, как старый чайник на максимуме.
+Снова рыгает, кашляет, хрюкает в такт музыке. Звук такой, будто кто-то трахает канализационную трубу.
+Но кнопки жмёт — как бог. Держит агро, пока весь мир вокруг горит в аду. ДД в истерике, саппорты в слезах, а Коля стоит, как бетонный памятник «Мне похуй, я танк».
+Попробуй забрать его из пака хоть на один прайм — и сразу поймёшь, кто вас всех, сука, держал.
+Коля — это рёв, шум, ад, пердёж и хаос.
+Это танк, который переживёт  и конец света.
+Не любить его почти невозможно.  
+А без него пачка — уже не пачка. Просто мясо на убой.`, notes:`●Отрыжка года. 
+●Признаный кулинар. 
+●Нестандартное мышление. `, lore:`Лор для седьмого персонажа.` },
+  { name:'Oni', role:'ПП', image:['Player8.png','player8.png','Player8.PNG','player8.PNG'], sound:['Player8.mp3','player8.mp3','Player8.MP3','player8.MP3'], text:`Солыч (Oni) — это, блять, не ПП, это тамада  и серверный Казанова в одном флаконе.
+В реале — пиздец как телок ебёт. Направо, налево, по кругу. Бухает, курит шмаль пачками, но при этом остаётся самым общительным и добрым  на районе. За словом в карман никогда не лезет, языком мелет так, что любая тёлка тает за пять минут.
+А в игре — полный пиздец. Ломает пушки как спички. Четыре заточки на +6 уже отправил в утиль, просто потому что. Заточка под синькой, руки трясутся, глаза красные — «ещё разик, сука, повезёт». Не повезло. 
+Безвести пропавший.. В паке крик: «СОЛИЧ, ДАЙ ПОВ, БЛЯДЬ!», а его нет. Ни онлайна, ни сигнала. То телки, то бухло, то «жизнь пошла по-новому».
+В итоге в конце совсем забил на игру. Просто исчез.
+Но пока был — был легендой. С ним всегда было весело, шумно и опасно. Может минуснуть пушку в самый важный момент, но когда заходил в форму — ПОВы летели так, что враги горели.`, notes:`●Ушел за хлебом, не вернулся.
+●Секс машина.
+●Не верит ни единому нашему слову.` , lore:`Лор для восьмого персонажа.` },
+  { name:'Pheonix', role:'ФС', image:['Player9.png','player9.png','Player9.PNG','player9.PNG'], sound:['Player9.mp3','player9.mp3','Player9.MP3','player9.MP3'], text:`Димон Pheonix — это сука резервный ядерный двигатель.
+Есть свет — он уже в игре. Без «ой, щас», без отмазок, без нытья. Просто заходит и начинает всех ебать.
+Даст пизды любому бывшему  — молча, жёстко. Без лишних слов, без драмы в чате. Просто факт.
+Он не гавкает в войс, не строит из себя героя, не разъёбывает клавиатуру. Он просто делает работу. И делает её так, что вопросов не остаётся.
+Тащит на любом классе: ДД, Сапорт — ему похуй. Дай ему кнопки — и он устроит сервис.
+Без истерик. Без понтов. Без показухи.
+Просто заходит и зачищает всю эту хуйню.`, notes:`●Топ прайм на сервере.
+●Аааллё
+●Жертва катакомб.` , lore:`Лор для девятого персонажа.` },
+  { name:'Lynx', role:'Джуд', image:['Player10.png','player10.png','Player10.PNG','player10.PNG'], sound:['Player10.mp3','player10.mp3','Player10.MP3','player10.MP3'], text:`Дима Линкс — нормальный тип, без гнили и без понтов.
+Семейный, вежливый, из тех, кто не пиздит, а просто живёт. Добрый, спокойный, без лишних движений и драм. Не лезет в срачи, не меряется хуями, не строит из себя альфу. Просто свой. Просто нормальный член команды, блять.
+Правда...Кнопку УД он ищет, как клад в старой жопе.
+Когда надо жать — он думает.
+Когда уже поздно — он вспоминает.
+Но при всём при этом — золото, а не человек.
+Просто стабильный, адекватный пацан, с которым хочется играть даже без эпиков и жирных сумок.
+Не мог много играть, часто пропадал, но по своим причинам!  
+С такими людьми пак чувствуется как семья, а не просто сборная солянка.
+Линкс — это не про хайп, не про понты и не про «я тут главный».
+Это про спокойствие, стабильность и человеческий базар.`, notes:`●Дает речку в файте. 
+●Узнал за уд в конце сезона. 
+●Добряк.`, lore:`Лор для десятого персонажа.` }
+];
+
+let current = 1;
+let autoTimer = null;
+let autoEnabled = false;
+let soundEnabled = true;
+let currentAudio = null;
+const GLOBAL_VOLUME = 0.7;
+
+const cardsEl = document.getElementById('cards');
+const indicatorsEl = document.getElementById('indicators');
+const playBtn = document.getElementById('playBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const soundBtn = document.getElementById('soundBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const stageEl = document.querySelector('.stage');
+
+
+function resolveAsset(asset) {
+  return Array.isArray(asset) ? asset[0] : asset;
+}
+
+function tryImageSources(img, sources, fallbackSrc) {
+  const list = Array.isArray(sources) ? [...sources] : [sources];
+  const tryNext = () => {
+    if (!list.length) {
+      img.onerror = null;
+      img.src = fallbackSrc;
+      return;
+    }
+    const next = list.shift();
+    img.src = next;
+  };
+  img.onerror = tryNext;
+  tryNext();
+}
+
+function playAudioWithFallback(sourceList) {
+  const list = Array.isArray(sourceList) ? [...sourceList] : [sourceList];
+  return new Promise((resolve, reject) => {
+    const tryNext = () => {
+      if (!list.length) return reject(new Error('audio not found'));
+      const src = list.shift();
+      const audio = new Audio();
+      audio.preload = 'metadata';
+      audio.src = src;
+
+      const onReady = () => {
+        cleanup();
+        resolve(audio);
+      };
+      const onError = () => {
+        cleanup();
+        tryNext();
+      };
+      const cleanup = () => {
+        audio.removeEventListener('loadedmetadata', onReady);
+        audio.removeEventListener('canplay', onReady);
+        audio.removeEventListener('canplaythrough', onReady);
+        audio.removeEventListener('error', onError);
+      };
+
+      audio.addEventListener('loadedmetadata', onReady, { once: true });
+      audio.addEventListener('canplay', onReady, { once: true });
+      audio.addEventListener('canplaythrough', onReady, { once: true });
+      audio.addEventListener('error', onError, { once: true });
+      audio.load();
+    };
+    tryNext();
+  });
+}
+
+function stopCurrentSound() {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+}
+
+function playCharacterSound(index) {
+  if (!soundEnabled) return;
+  const src = players[index].sound;
+  if (!src) return;
+  stopCurrentSound();
+  playAudioWithFallback(src).then((audio) => {
+    currentAudio = audio;
+    currentAudio.volume = 0;
+    return currentAudio.play();
+  }).then(() => {
+    let vol = 0;
+    const fade = setInterval(() => {
+      if (!currentAudio) return clearInterval(fade);
+      vol += 0.05;
+      currentAudio.volume = Math.min(GLOBAL_VOLUME, vol);
+      if (vol >= GLOBAL_VOLUME) clearInterval(fade);
+    }, 50);
+  }).catch(() => {});
+}
+
+function buildCards() {
+  cardsEl.innerHTML = '';
+  indicatorsEl.innerHTML = '';
+  players.forEach((player, index) => {
+    const shell = document.createElement('button');
+    shell.className = 'card-shell';
+    shell.dataset.index = index;
+    shell.type = 'button';
+    shell.setAttribute('aria-label', `Открыть карточку ${player.name}`);
+
+    const img = document.createElement('img');
+    img.alt = player.name;
+    img.className = 'card';
+    img.dataset.index = index;
+    img.draggable = false;
+    tryImageSources(img, player.image, PLACEHOLDER_SVG);
+
+    shell.addEventListener('click', () => {
+      stopAuto();
+      selectPlayer(index, true, true);
+    });
+
+    shell.appendChild(img);
+    cardsEl.appendChild(shell);
+
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.type = 'button';
+    dot.title = player.name;
+    dot.setAttribute('aria-label', `Выбрать ${player.name}`);
+    dot.addEventListener('click', () => { stopAuto(); selectPlayer(index, false, false); });
+    indicatorsEl.appendChild(dot);
+  });
+}
+
+function renderCards(playSound = false) {
+  const cardEls = [...document.querySelectorAll('.card')];
+  const shellEls = [...document.querySelectorAll('.card-shell')];
+  const dotEls = [...document.querySelectorAll('.dot')];
+
+  cardEls.forEach((el, idx) => {
+    el.classList.remove('active');
+    shellEls[idx].classList.remove('active');
+    if (idx === current) {
+      el.classList.add('active');
+      shellEls[idx].classList.add('active');
+    }
+  });
+
+  dotEls.forEach((dot, idx) => {
+    dot.classList.toggle('active', idx === current);
+  });
+
+  if (playSound) playCharacterSound(current);
+}
+
+function selectPlayer(index, withSound = false, openModal = false) {
+  current = index;
+  renderCards(withSound);
+  if (openModal) openCharacterModal(index);
+}
+
+function startAuto() {
+  autoEnabled = true;
+  if (autoTimer) clearInterval(autoTimer);
+  playBtn.classList.add('active-toggle');
+  pauseBtn.classList.remove('active-toggle');
+  autoTimer = setInterval(() => {
+    current = (current + 1) % players.length;
+    renderCards(false);
+  }, 15000);
+}
+
+function stopAuto() {
+  autoEnabled = false;
+  playBtn.classList.remove('active-toggle');
+  pauseBtn.classList.add('active-toggle');
+  if (autoTimer) clearInterval(autoTimer);
+  autoTimer = null;
+}
+
+playBtn.addEventListener('click', startAuto);
+pauseBtn.addEventListener('click', () => {
+  stopAuto();
+  stopCurrentSound();
+});
+prevBtn.addEventListener('click', () => {
+  stopAuto();
+  current = (current - 1 + players.length) % players.length;
+  renderCards(true);
+});
+nextBtn.addEventListener('click', () => {
+  stopAuto();
+  current = (current + 1) % players.length;
+  renderCards(true);
+});
+soundBtn.addEventListener('click', () => {
+  soundEnabled = !soundEnabled;
+  soundBtn.textContent = soundEnabled ? '🔊' : '🔇';
+  soundBtn.classList.toggle('active-toggle', soundEnabled);
+  if (!soundEnabled) stopCurrentSound();
+});
+
+buildCards();
+renderCards(false);
+stopAuto();
+
+function bindModal(modalId, openBtnId, closeBtnId, backdropId, options = {}) {
+  const modal = document.getElementById(modalId);
+  const openBtn = openBtnId ? document.getElementById(openBtnId) : null;
+  const closeBtn = document.getElementById(closeBtnId);
+  const backdrop = document.getElementById(backdropId);
+  const open = () => {
+    modal.classList.add('open');
+    if (options.onOpen) options.onOpen();
+  };
+  const close = () => {
+    modal.classList.remove('open');
+    if (options.onClose) options.onClose();
+  };
+  if (openBtn) openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  return { modal, open, close };
+}
+
+const aboutModalCtl = bindModal('aboutModal', 'aboutOpenBtn', 'aboutCloseBtn', 'aboutBackdrop');
+const applyModalCtl = bindModal('applyModal', 'applyOpenBtn', 'applyCloseBtn', 'applyBackdrop');
+const characterModalCtl = bindModal('characterModal', null, 'characterCloseBtn', 'characterBackdrop', {
+  onOpen: () => document.body.classList.add('focus-mode'),
+  onClose: () => {
+    document.body.classList.remove('focus-mode');
+    stopCurrentSound();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    aboutModalCtl.close();
+    applyModalCtl.close();
+    characterModalCtl.close();
+  }
+});
+
+const characterTitle = document.getElementById('characterTitle');
+const characterImage = document.getElementById('characterImage');
+const characterRole = document.getElementById('characterRole');
+const characterText = document.getElementById('characterText');
+const replaySoundBtn = document.getElementById('replaySoundBtn');
+const stopSoundBtn = document.getElementById('stopSoundBtn');
+const tabButtons = [...document.querySelectorAll('.tab-btn')];
+
+function renderCharacterTab(index, tabName) {
+  const p = players[index];
+  let value = p.text || '';
+  if (tabName === 'notes') value = p.notes || 'Заметки появятся позже.';
+  characterText.innerHTML = String(value).replace(/\n/g, "<br>");
+  tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabName));
+}
+
+function openCharacterModal(index) {
+  const p = players[index];
+  characterTitle.textContent = p.name;
+  tryImageSources(characterImage, p.image, PLACEHOLDER_SVG);
+  characterRole.textContent = p.role;
+  renderCharacterTab(index, 'desc');
+  characterModalCtl.open();
+}
+
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => renderCharacterTab(current, btn.dataset.tab));
+});
+
+replaySoundBtn.addEventListener('click', () => playCharacterSound(current));
+stopSoundBtn.addEventListener('click', stopCurrentSound);
+
+const applyForm = document.getElementById('applyForm');
+const submitStatus = document.getElementById('submitStatus');
+
+applyForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitStatus.textContent = 'Отправляем заявку...';
+
+  const formData = new FormData(applyForm);
+  if (+formData.get('age') < 16) {
+    submitStatus.textContent = 'Минимальный возраст — 16';
+    return;
+  }
+  formData.append('_subject', 'Новая заявка в Pussy Boys Team');
+  formData.append('_template', 'table');
+
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/pussyboysteam@gmail.com', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      submitStatus.textContent = 'Заявка отправлена.';
+      applyForm.reset();
+    } else {
+      submitStatus.textContent = 'Не удалось отправить заявку.';
+    }
+  } catch (err) {
+    submitStatus.textContent = 'Ошибка отправки. Проверь подключение.';
+  }
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.18 });
+
+document.querySelectorAll('.reveal').forEach((el, idx) => {
+  el.style.transitionDelay = `${Math.min(idx * 0.08, 0.32)}s`;
+  revealObserver.observe(el);
+});
+
+window.addEventListener('mousemove', (e) => {
+  const rx = (e.clientX / window.innerWidth - 0.5) * 10;
+  const ry = (e.clientY / window.innerHeight - 0.5) * 8;
+});
+window.addEventListener('mouseleave', () => {
+});
+
+(function () {
+  const wrap = document.getElementById('bannerWrap');
+  const canvas = document.getElementById('bannerFx');
+  const ctx = canvas.getContext('2d');
+  let dpr = Math.max(1, window.devicePixelRatio || 1);
+  let w = 0;
+  let h = 0;
+  const particles = [];
+
+  function resizeCanvas() {
+    const rect = wrap.getBoundingClientRect();
+    w = Math.floor(rect.width);
+    h = Math.floor(rect.height);
+    dpr = Math.max(1, window.devicePixelRatio || 1);
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    particles.length = 0;
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2.5 + 0.4,
+        vy: Math.random() * -1.2 - 0.3,
+        vx: Math.random() * 0.4 - 0.2,
+        alpha: Math.random() * 0.6,
+        drift: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      p.drift += 0.02;
+      p.x += p.vx + Math.sin(p.drift) * 0.12;
+      p.y += p.vy;
+      if (p.y < -10) { p.y = h + 8; p.x = Math.random() * w; }
+      if (p.x < -10) p.x = w + 10;
+      if (p.x > w + 10) p.x = -10;
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(255, 185, 105, ${p.alpha})`;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  draw();
+})();
+
+(function () {
+  const canvas = document.getElementById('bgFx');
+  const ctx = canvas.getContext('2d');
+  let dpr = Math.max(1, window.devicePixelRatio || 1);
+  let w = 0, h = 0;
+  const ash = [];
+  const smoke = [];
+  const sparks = [];
+  let mouseX = 0;
+  let mouseY = 0;
+
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    dpr = Math.max(1, window.devicePixelRatio || 1);
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    ash.length = 0;
+    smoke.length = 0;
+    sparks.length = 0;
+
+    for (let i = 0; i < 180; i++) {
+      ash.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2 + 0.3,
+        vy: Math.random() * -0.8 - 0.1,
+        vx: Math.random() * 0.3 - 0.15,
+        alpha: Math.random() * 0.22,
+        drift: Math.random() * Math.PI * 2
+      });
+    }
+
+    for (let i = 0; i < 10; i++) {
+      smoke.push({
+        x: Math.random() * w,
+        y: h * (0.72 + Math.random() * 0.24),
+        r: 70 + Math.random() * 120,
+        alpha: 0.025 + Math.random() * 0.03,
+        vx: Math.random() * 0.2 - 0.1,
+        vy: -0.05 - Math.random() * 0.04
+      });
+    }
+
+    for (let i = 0; i < 18; i++) {
+      sparks.push(makeSpark(true));
+    }
+  }
+
+  function makeSpark(randomY = false) {
+    const left = Math.random() > 0.5;
+    return {
+      x: left ? Math.random() * (w * 0.18) : w * 0.82 + Math.random() * (w * 0.18),
+      y: randomY ? Math.random() * h : h + Math.random() * 80,
+      r: 1 + Math.random() * 2.2,
+      vx: Math.random() * 0.6 - 0.3,
+      vy: -0.8 - Math.random() * 1.3,
+      alpha: 0.2 + Math.random() * 0.45,
+      life: 40 + Math.random() * 60
+    };
+  }
+
+  function drawSmoke(p) {
+    const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+    g.addColorStop(0, `rgba(255,170,110,${p.alpha})`);
+    g.addColorStop(0.45, `rgba(120,80,60,${p.alpha * 0.55})`);
+    g.addColorStop(1, 'rgba(20,15,15,0)');
+    ctx.beginPath();
+    ctx.fillStyle = g;
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.y < h * 0.45) {
+      p.x = Math.random() * w;
+      p.y = h * (0.72 + Math.random() * 0.24);
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.save();
+    ctx.translate((mouseX - w / 2) * 0.005, (mouseY - h / 2) * 0.005);
+
+    smoke.forEach(drawSmoke);
+
+    for (const p of ash) {
+      p.drift += 0.015;
+      p.x += p.vx + Math.sin(p.drift) * 0.1;
+      p.y += p.vy;
+      if (p.y < -8) { p.y = h + 8; p.x = Math.random() * w; }
+      if (p.x < -10) p.x = w + 10;
+      if (p.x > w + 10) p.x = -10;
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(255,190,120,${p.alpha})`;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    for (const s of sparks) {
+      s.x += s.vx;
+      s.y += s.vy;
+      s.life -= 1;
+      s.alpha *= 0.992;
+      if (s.life <= 0 || s.y < -20) Object.assign(s, makeSpark(false));
+      const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 5);
+      glow.addColorStop(0, `rgba(255,235,170,${s.alpha})`);
+      glow.addColorStop(0.35, `rgba(255,165,70,${s.alpha * 0.85})`);
+      glow.addColorStop(1, 'rgba(255,120,40,0)');
+      ctx.beginPath();
+      ctx.fillStyle = glow;
+      ctx.arc(s.x, s.y, s.r * 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.restore();
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  resize();
+  window.addEventListener('resize', resize);
+  animate();
+})();
+
+
+// Robust metal hit sound for the board
+(function () {
+  function initMetalHit() {
+    const board = document.getElementById('about-block');
+    const audio = document.getElementById('metalHitAudio');
+    if (!board || !audio) return;
+
+    const playMetalHit = () => {
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.volume = soundEnabled ? GLOBAL_VOLUME : 0;
+        const p = audio.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch((err) => console.warn('metal-hit blocked:', err));
+        }
+      } catch (err) {
+        console.warn('metal-hit failed:', err);
+      }
+    };
+
+    board.addEventListener('click', playMetalHit);
+    board.addEventListener('pointerdown', playMetalHit);
+
+    audio.addEventListener('error', () => {
+      console.warn('metal-hit.mp3 not loaded. Check file path/name.');
+    }, { once: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMetalHit, { once: true });
+  } else {
+    initMetalHit();
+  }
+})();
+
+</script>
+</body>
+</html>
