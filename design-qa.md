@@ -25,7 +25,7 @@ The notebook close-up confirms real parchment texture, a real transparent bindin
 
 ## Required fidelity surfaces
 
-- Fonts and typography: Cormorant Garamond carries the monumental Latin masthead and nicknames; Ruslan Display provides a deliberate Cyrillic display face for the notebook and dialog headings; Old Standard TT keeps navigation, labels, rules, and long text readable. All three families are served locally with Cyrillic/Latin subsets, load successfully, and render without clipping.
+- Fonts and typography: Cormorant Garamond carries the monumental Latin masthead and nicknames; the smoother Yeseva One provides the Cyrillic display face for notebook, rules, and dialog headings; screen-hinted PT Serif keeps navigation, labels, rules, and long text clean at 1× pixel density. All three families are served locally with Cyrillic/Latin subsets, load successfully, and render without clipping.
 - Spacing and layout rhythm: hero-to-notebook transition, paper padding, record separators, rules rhythm, and mobile stacking are balanced. No horizontal overflow remains.
 - Colors and visual tokens: charcoal, aged ivory, muted brown, and blood-red accents track the reference with sufficient contrast.
 - Image quality and asset fidelity: the background, parchment, binding, and title brush are dedicated raster assets matching the reference art direction. No placeholder imagery, CSS illustration, inline SVG, or emoji substitutes remain.
@@ -40,7 +40,7 @@ The notebook close-up confirms real parchment texture, a real transparent bindin
 - Submitted a local three-field request and observed the success message.
 - Filtered three approved records by nickname and confirmed only the match remained.
 - Checked browser console warnings and errors: none.
-- Verified the computed font families in-browser at 1920 × 911 and 319 × 458; all local faces reported loaded, with no horizontal overflow at either width.
+- Verified the computed font families in-browser at 319 × 458 and the wide responsive breakpoint; all local faces reported loaded, with no horizontal overflow. The final visual comparison used the native 319 × 458 viewport because the temporary wide viewport override rasterized the entire page at a lower backing resolution.
 - Verified the required clan selector at 319 × 458: 35 allowed clans plus a disabled placeholder, no horizontal overflow, and the selected 32 × 24 crest loads beside the clan name.
 - Confirmed a listed clan is accepted by the local API and an arbitrary clan is rejected with HTTP 400.
 
@@ -50,6 +50,7 @@ The notebook close-up confirms real parchment texture, a real transparent bindin
 2. Pass 2 confirmed the scrollbar was gone and the notebook, binding, footer, and rules panel fit the 304 px viewport.
 3. Final polish replaced the flat CSS title underline with a generated transparent brush-stroke asset, improving fidelity without changing layout.
 4. Typography pass replaced the Cyrillic fallback in the notebook heading with Ruslan Display, moved all reading text to Old Standard TT, refined masthead metrics with Cormorant Garamond, and removed the external font stylesheet dependency.
+5. Smoothing pass replaced the deliberately angular Ruslan Display and thin Old Standard TT with Yeseva One and PT Serif, increased micro-label sizes, reduced excessive tracking, and disabled synthetic font faces. At the native 1× mobile viewport, letter contours are visibly cleaner while the hierarchy remains intact.
 
 ## Findings
 

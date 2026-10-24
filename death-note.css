@@ -15,48 +15,48 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: "Old Standard TT";
-  src: url("assets/fonts/old-standard-400-cyrillic.woff2") format("woff2");
+  font-family: "PT Serif";
+  src: url("assets/fonts/pt-serif-400-cyrillic.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 @font-face {
-  font-family: "Old Standard TT";
-  src: url("assets/fonts/old-standard-400-latin.woff2") format("woff2");
+  font-family: "PT Serif";
+  src: url("assets/fonts/pt-serif-400-latin.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: "Old Standard TT";
-  src: url("assets/fonts/old-standard-700-cyrillic.woff2") format("woff2");
+  font-family: "PT Serif";
+  src: url("assets/fonts/pt-serif-700-cyrillic.woff2") format("woff2");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 @font-face {
-  font-family: "Old Standard TT";
-  src: url("assets/fonts/old-standard-700-latin.woff2") format("woff2");
+  font-family: "PT Serif";
+  src: url("assets/fonts/pt-serif-700-latin.woff2") format("woff2");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: "Ruslan Display";
-  src: url("assets/fonts/ruslan-cyrillic.woff2") format("woff2");
+  font-family: "Yeseva One";
+  src: url("assets/fonts/yeseva-cyrillic.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 @font-face {
-  font-family: "Ruslan Display";
-  src: url("assets/fonts/ruslan-latin.woff2") format("woff2");
+  font-family: "Yeseva One";
+  src: url("assets/fonts/yeseva-latin.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -81,9 +81,10 @@ body {
   overflow-x: hidden;
   background: #090a0b url("assets/death-note-bg-v2.webp") center 58px / cover fixed no-repeat;
   color: var(--bone);
-  font: 16px/1.5 "Old Standard TT", Georgia, serif;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  font: 16px/1.55 "PT Serif", Georgia, serif;
+  font-kerning: normal;
+  font-synthesis: none;
+  text-rendering: auto;
 }
 a { color: inherit; text-decoration: none; }
 button, input, textarea, select { font: inherit; }
@@ -119,7 +120,7 @@ nav a.active::after { content: ""; position: absolute; left: 22px; right: 22px; 
   color: #fff5ed;
   padding: 13px 24px;
   border-radius: 3px;
-  font-family: "Old Standard TT", Georgia, serif;
+  font-family: "PT Serif", Georgia, serif;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: .2px;
@@ -132,8 +133,8 @@ nav a.active::after { content: ""; position: absolute; left: 22px; right: 22px; 
 main { min-height: calc(100vh - 116px); }
 .hero { min-height: 280px; display: grid; place-items: center; padding: 34px 20px 52px; text-align: center; }
 .hero-copy { max-width: 760px; }
-.eyebrow { margin: 0; color: #c6beb1; font: 700 10px/1.4 "Old Standard TT", Georgia, serif; letter-spacing: 5px; }
-h1 { margin: 8px 0 0; color: #f5efe4; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(68px, 7.2vw, 118px); line-height: .88; font-weight: 600; letter-spacing: .035em; font-kerning: normal; text-shadow: 0 5px 28px #000; }
+.eyebrow { margin: 0; color: #c6beb1; font: 700 11px/1.45 "PT Serif", Georgia, serif; letter-spacing: 4px; }
+h1 { margin: 8px 0 0; color: #f5efe4; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(68px, 7.2vw, 118px); line-height: .88; font-weight: 700; letter-spacing: .03em; font-kerning: normal; text-shadow: 0 5px 28px #000; }
 .title-brush { display: block; width: min(560px, 78%); height: 24px; margin: -2px auto 2px; object-fit: fill; }
 .subtitle { margin: 1px 0 0; font-size: 27px; letter-spacing: 3px; }
 .lead { margin: 9px 0 0; color: #d1c8bb; font-size: 16px; letter-spacing: .1px; }
@@ -169,9 +170,9 @@ h1 { margin: 8px 0 0; color: #f5efe4; font-family: "Cormorant Garamond", Georgia
   pointer-events: none;
 }
 .page-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; padding-bottom: 15px; border-bottom: 2px solid rgba(115,16,26,.75); }
-.page-kicker { margin: 0 0 6px; color: #766a59; font-size: 9px; font-weight: 700; letter-spacing: 3px; }
+.page-kicker { margin: 0 0 6px; color: #766a59; font-size: 10px; font-weight: 700; letter-spacing: 2.4px; }
 h2 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 38px; line-height: 1; font-weight: 600; }
-.notebook h2 { font-family: "Ruslan Display", "Old Standard TT", Georgia, serif; font-size: clamp(38px, 3.5vw, 54px); line-height: 1.08; font-weight: 400; letter-spacing: -.02em; color: #14110f; }
+.notebook h2 { font-family: "Yeseva One", "PT Serif", Georgia, serif; font-size: clamp(38px, 3.5vw, 54px); line-height: 1.08; font-weight: 400; letter-spacing: -.015em; color: #17120f; }
 .server-mark { min-width: 84px; padding: 7px 8px 6px; color: #9c1624; border: 2px solid #a72732; text-align: center; transform: rotate(-2deg); line-height: .95; }
 .server-mark span, .server-mark strong { display: block; }
 .server-mark span { font-size: 13px; letter-spacing: 3px; }
@@ -179,7 +180,7 @@ h2 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 38
 
 .tools-row { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin: 18px 0; }
 .search-wrap { flex: 1; max-width: 580px; }
-.search-wrap label { display: block; margin-bottom: 6px; color: #6d6152; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.search-wrap label { display: block; margin-bottom: 6px; color: #6d6152; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; }
 input, textarea, select { width: 100%; border: 1px solid rgba(92,75,57,.42); border-radius: 3px; padding: 11px 13px; background: rgba(255,255,255,.28); color: inherit; }
 input:focus, textarea:focus, select:focus { outline: 2px solid #9c2631; border-color: transparent; }
 input::placeholder, textarea::placeholder { color: #766c5e; }
@@ -189,7 +190,7 @@ input::placeholder, textarea::placeholder { color: #766c5e; }
   grid-template-columns: minmax(140px, .85fr) minmax(120px, .75fr) minmax(260px, 1.8fr);
   gap: 24px;
 }
-.entry-columns { padding: 11px 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: #4d443a; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; }
+.entry-columns { padding: 11px 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: #4d443a; font-size: 11px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; }
 #list-status { margin: 0; padding: 55px 16px; color: var(--paper-muted); text-align: center; }
 .entry { align-items: start; padding: 20px 16px; border-bottom: 1px solid var(--line); }
 .entry-cell { min-width: 0; overflow-wrap: anywhere; }
@@ -202,7 +203,7 @@ input::placeholder, textarea::placeholder { color: #766c5e; }
 
 .rules-card { padding: 30px 26px; background: rgba(9,10,11,.94); border: 1px solid rgba(255,255,255,.18); box-shadow: 0 18px 45px rgba(0,0,0,.62); }
 .rules-card .eyebrow { color: #9e1825; letter-spacing: 3px; }
-.rules-card h2 { margin-top: 9px; font-family: "Old Standard TT", Georgia, serif; font-size: 31px; line-height: 1.18; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; }
+.rules-card h2 { margin-top: 9px; font-family: "Yeseva One", "PT Serif", Georgia, serif; font-size: 30px; line-height: 1.2; font-weight: 400; letter-spacing: .8px; text-transform: uppercase; }
 .rules-card ol { list-style: none; padding: 0; margin: 23px 0 0; }
 .rules-card li { display: grid; grid-template-columns: 42px 1fr; gap: 12px; padding: 17px 0; border-top: 1px solid rgba(255,255,255,.14); }
 .rules-card li > span { color: #a19a91; font-size: 28px; line-height: 1; }
@@ -217,7 +218,7 @@ dialog { width: min(560px, calc(100% - 24px)); max-height: 92vh; padding: 0; bor
 dialog::backdrop { background: rgba(0,0,0,.82); backdrop-filter: blur(4px); }
 dialog form, .admin-body { padding: 32px; background: rgba(12,12,13,.92); }
 .admin-body form { padding: 0; background: transparent; }
-dialog h2 { margin: 8px 0 14px; font-family: "Ruslan Display", "Old Standard TT", Georgia, serif; font-size: 34px; font-weight: 400; }
+dialog h2 { margin: 8px 0 14px; font-family: "Yeseva One", "PT Serif", Georgia, serif; font-size: 34px; line-height: 1.1; font-weight: 400; }
 dialog p { color: #bdb4a9; }
 dialog label { display: block; margin: 18px 0; color: #d6cabd; font-size: 14px; }
 dialog input, dialog textarea { display: block; margin-top: 7px; background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.2); }
