@@ -23,6 +23,20 @@ function entryCell(label, value, className) {
   cell.append(node('span', label, 'entry-label'), node('span', value, 'entry-value'));
   return cell;
 }
+function clanCell(clan) {
+  const name = clan || 'Без клана';
+  const cell = node('div', '', 'entry-cell entry-clan');
+  const crest = document.createElement('img');
+  crest.className = 'entry-clan-crest';
+  crest.src = `assets/clans/${encodeURIComponent(name)}.png`;
+  crest.alt = '';
+  crest.width = 32;
+  crest.height = 24;
+  crest.loading = 'lazy';
+  crest.addEventListener('error', () => { crest.hidden = true; cell.classList.add('no-crest'); });
+  cell.append(node('span', 'Клан', 'entry-label'), crest, node('span', name, 'entry-clan-name'));
+  return cell;
+}
 function renderEntries() {
   const search = $('search').value.trim().toLocaleLowerCase('ru');
   const filtered = entries.filter(e => [e.nickname, e.clan, e.server].join(' ').toLocaleLowerCase('ru').includes(search));
@@ -35,8 +49,8 @@ function renderEntries() {
   filtered.forEach(entry => {
     const article = node('article', '', 'entry');
     article.append(
+      clanCell(entry.clan),
       entryCell('Ник', entry.nickname, 'entry-nick'),
-      entryCell('Клан', entry.clan || 'Без клана', 'entry-clan'),
       entryCell('Причина почему пидорас', entry.reason, 'entry-reason')
     );
     $('entries').append(article);

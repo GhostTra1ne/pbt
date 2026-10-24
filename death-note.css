@@ -187,7 +187,7 @@ input::placeholder, textarea::placeholder { color: #766c5e; }
 #entry-count { color: #7b6b5b; font-size: 12px; font-weight: 700; letter-spacing: 2px; padding-bottom: 10px; }
 .entry-columns, .entry {
   display: grid;
-  grid-template-columns: minmax(140px, .85fr) minmax(120px, .75fr) minmax(260px, 1.8fr);
+  grid-template-columns: minmax(84px, .48fr) minmax(150px, .85fr) minmax(260px, 1.8fr);
   gap: 24px;
 }
 .entry-columns { padding: 11px 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: #4d443a; font-size: 11px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; }
@@ -196,8 +196,11 @@ input::placeholder, textarea::placeholder { color: #766c5e; }
 .entry-cell { min-width: 0; overflow-wrap: anywhere; }
 .entry-label { display: none; }
 .entry-value { display: block; }
+.entry-clan { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+.entry-clan-crest { width: 32px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
+.entry-clan-name { color: #665a4c; font-size: 11px; font-weight: 700; line-height: 1.15; }
+.entry-clan.no-crest { padding-top: 3px; }
 .entry-nick .entry-value { font-family: "Cormorant Garamond", Georgia, serif; font-size: 25px; font-weight: 700; line-height: 1.05; }
-.entry-clan .entry-value { font-size: 16px; font-weight: 700; }
 .entry-reason .entry-value { font-size: 15px; line-height: 1.48; white-space: pre-wrap; }
 .page-bottom { display: flex; justify-content: space-between; gap: 20px; margin-top: 30px; color: #766958; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 
@@ -265,8 +268,13 @@ dialog select option { color: #211b17; background: #e8dcc7; }
   .tools-row { align-items: stretch; flex-direction: column; gap: 8px; }
   #entry-count { padding: 0; }
   .entry-columns { display: none; }
-  .entry { grid-template-columns: 1fr; gap: 10px; padding: 19px 8px; }
+  .entry { grid-template-columns: 46px minmax(0, 1fr); column-gap: 13px; row-gap: 14px; padding: 19px 8px; }
   .entry-label { display: block; margin-bottom: 2px; color: #766958; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .entry-clan { grid-column: 1; grid-row: 1; align-items: center; text-align: center; }
+  .entry-clan .entry-label { display: none; }
+  .entry-clan-name { max-width: 62px; font-size: 9px; overflow-wrap: anywhere; }
+  .entry-nick { grid-column: 2; grid-row: 1; align-self: center; }
+  .entry-reason { grid-column: 1 / -1; grid-row: 2; }
   .entry-nick .entry-value { font-size: 23px; }
   .rules-card { margin-left: 14px; padding: 25px 22px; }
   .rules-card ol { grid-template-columns: 1fr; gap: 0; }

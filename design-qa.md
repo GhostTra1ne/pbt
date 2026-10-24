@@ -56,6 +56,18 @@ The notebook close-up confirms real parchment texture, a real transparent bindin
 
 No actionable P0, P1, or P2 mismatches remain. The wide composition closely tracks the source; character visibility at narrow mobile widths is an expected responsive crop rather than a fidelity defect.
 
+## Clan-first record layout pass
+
+- Source visual truth: `C:\Users\Hex\AppData\Local\Temp\codex-clipboard-12202571-c100-4964-b068-0f31dc7b3aac.png` (866 × 380 at 1×).
+- Browser-rendered implementation: `C:\Users\Hex\.codex\visualizations\2026\10\24\01a16bc1-3c5c-7330-ba50-8504a3f8ed57\death-note-entry-layout-local-866.png` (866 × 700 responsive viewport) and `death-note-entry-layout-local-mobile.png` (319 × 458 native viewport).
+- Combined comparison: `C:\Users\Hex\.codex\visualizations\2026\10\24\01a16bc1-3c5c-7330-ba50-8504a3f8ed57\death-note-entry-layout-comparison.png`.
+- State: one approved `eron3 / Ukraine` record with the supplied 32 × 24 Ukraine crest and the same reason text as the reference.
+- Full-view comparison: the notebook hierarchy, parchment, search row, record divider, and three-column rhythm remain consistent. The browser's temporary wide viewport override rasterizes the full page at a lower backing resolution, so typography fidelity was judged from the native mobile capture rather than treating that capture artifact as a defect.
+- Focused record comparison: the implemented order intentionally follows the user's written direction rather than the old screenshot order: clan crest with the small clan name below, nickname beside it, then reason. The narrow layout keeps crest and nickname on one row and moves the reason below.
+- Required fidelity surfaces: existing PT Serif/Yeseva One typography, parchment colors, spacing tokens, and real supplied clan crest asset are preserved; no placeholder or code-drawn icon was introduced. Copy remains the requested three-field record.
+- Interaction verification: search still matches nickname and clan; the record has no horizontal overflow; the crest loads at its native 32 × 24 dimensions; browser console warnings and errors are empty.
+- Findings: no actionable P0, P1, or P2 mismatch remains. The column-order difference from the screenshot is intentional because the user's explicit instruction supersedes the older captured state.
+
 ## Follow-up polish
 
 - P3: the implementation intentionally omits the reference's verdict/status column so every record stays limited to the user's three requested fields.
