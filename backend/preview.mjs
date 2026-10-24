@@ -18,11 +18,11 @@ createServer(async (req, res) => {
       const response = await worker.fetch(request, env, { waitUntil(promise) { promise.catch(() => {}); } });
       res.writeHead(response.status, Object.fromEntries(response.headers)); res.end(await response.text()); return;
     }
-    if (url.pathname === '/death-note-config.js') { res.writeHead(200, { 'Content-Type': 'text/javascript' }); res.end("window.DEATH_NOTE_API = location.origin + '/api';"); return; }
+    if (url.pathname === '/death-note-config.js' && !process.env.PBT_PREVIEW_REMOTE) { res.writeHead(200, { 'Content-Type': 'text/javascript' }); res.end("window.DEATH_NOTE_API = location.origin + '/api';"); return; }
     const relative = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
     const file = path.resolve(root, '.' + relative);
     if (!file.startsWith(root) || relative.includes('/.') || relative.startsWith('/backend/')) { res.writeHead(403); res.end(); return; }
     const content = await readFile(file);
     res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream' }); res.end(content);
   } catch { res.writeHead(404); res.end('Not found'); }
-}).listen(8788, '127.0.0.1', () => console.log('Preview: http://127.0.0.1:8788/death-note.html\nTemporary local archive; no production notifications.'));
+}).listen(8788, '127.0.0.1', () => console.log('Preview: http://127.0.0.1:8788/death-note.html\n' + (process.env.PBT_PREVIEW_REMOTE ? 'Production archive connected; submissions notify Telegram.' : 'Temporary local archive; no production notifications.')));

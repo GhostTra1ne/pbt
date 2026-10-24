@@ -30,12 +30,16 @@ node --test backend/worker.test.mjs backend/telegram.test.mjs
 
 Восемь тестов проверяют приватность до одобрения, авторизацию, одобрение/отклонение, повторное решение, исключение приватных полей, лимиты, CORS, валидацию, Telegram-кнопки, владельца, webhook и повторную доставку.
 
-## Подключение общего архива
+## Общий архив
+
+Production API: https://pbt-death-note.mrhally007.workers.dev. Выделенные Worker и D1 называются `pbt-death-note`. Бот: https://t.me/PBTDeathNoteBot. Аккаунт и UUID базы закреплены в `backend/wrangler.toml`; доменные маршруты отсутствуют, Worker использует собственный адрес workers.dev. Существующие сайты, Workers и базы не используются.
+
+Ниже описана настройка с нуля для восстановления. Для уже созданной базы повторно выполнять `d1 create` не нужно.
 
 GitHub Pages выполняет только клиентский код. Для настоящих заявок нужно один раз опубликовать Worker в собственном аккаунте Cloudflare и создать D1.
 
-1. В каталоге `backend` выполнить `npx wrangler login`, затем `npx wrangler d1 create pbt-death-note`.
-2. Подставить возвращённый `database_id` в `backend/wrangler.toml` вместо `REPLACE_WITH_CREATED_D1_ID`.
+1. В каталоге `backend` выполнить `npx wrangler login --scopes account:read user:read workers:write workers_scripts:write d1:write`, затем при восстановлении новой базы `npx wrangler d1 create pbt-death-note`.
+2. Убедиться, что `database_id` в `backend/wrangler.toml` соответствует выделенной PBT-базе.
 3. Выполнить `npx wrangler d1 execute pbt-death-note --remote --file=schema.sql`.
 4. Создать длинный случайный ключ (минимум 24 символа) и сохранить через `npx wrangler secret put ADMIN_KEY`. Не записывать ключ в репозиторий или `death-note-config.js`.
 5. Выполнить `npx wrangler secret put RATE_SALT`, указав другое случайное значение для хеширования IP.
@@ -62,4 +66,8 @@ GitHub Pages выполняет только клиентский код. Для
 
 ## Статус публикации
 
-Изменения подготовлены для проверки. Production Worker и D1 пока не созданы, production ключ и Telegram не настроены. Канал модерации выбран: личные сообщения отдельного Telegram-бота. Публиковать страницу как полностью работающий приём заявок следует после подключения обработчика.
+Worker, D1, секреты и webhook Telegram настроены. Реально проверена цепочка: отправка формы → заявка отсутствует в общем списке → уведомление в личке хранителя → нажатие Telegram-кнопки «Одобрить» → запись появляется в общей тетради. Техническая тестовая запись после проверки удалена.
+
+Перед публикацией снят read-only инвентарь существующих Cloudflare Workers и D1. Повторная проверка подтвердила неизменность существующих Workers, включая `waifuchan-telegram-oidc`; добавлены только Worker и D1 `pbt-death-note`. DNS, зоны и чужие сайты не менялись. Снимок хранится локально в игнорируемом `backend/.local/before.json`.
+
+`pair-owner.mjs` и `connect-telegram.mjs` предназначены только для локальной настройки выделенного бота. Они проверяют username, не выводят токен и не меняют неожиданный существующий webhook. `resource-snapshot.mjs` выполняет только чтение инвентаря Cloudflare.
