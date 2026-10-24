@@ -1,5 +1,7 @@
 import { notify, handleUpdate } from './telegram.mjs';
-const limits = { nickname: [1, 40], clan: [0, 60], reason: [10, 1500] };
+export const CLANS = Object.freeze(['4SV', 'AGR', 'AGR_L2team', 'AGR_Style', 'BreganDaerthe', 'Carnival', 'Cats', 'Dwarf', 'ENCOM', 'Euphoria', 'GATEINHELL', 'KakBogPoshlet', 'Kingdom', 'L2Commerce', 'Myxomop', 'OldSchool', 'PARAGONE', 'PixelBrothers', 'PixelHunters', 'PixelKnights', 'PixelLegends', 'pvpformat', 'ROADTOHELL', 'SEKTA', 'Skufs', 'spidersense', 'SvetlanaPetrovna', 'TrashTeam', 'UAsquad', 'UAsquadII', 'Ukraine', 'VORDEX', 'xCore', 'zero', 'zeroeu']);
+const clanSet = new Set(CLANS);
+const limits = { nickname: [1, 40], clan: [1, 60], reason: [10, 1500] };
 export function validate(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Некорректная заявка.');
   const clean = { server: 'Lu4 · Black', evidence: '', reporter: '' };
@@ -9,6 +11,7 @@ export function validate(input) {
     clean[key] = value.trim();
     if (clean[key].length < min || clean[key].length > max) throw new Error(`Проверь поле ${key}: от ${min} до ${max} символов.`);
   }
+  if (!clanSet.has(clean.clan)) throw new Error('Выбери клан из списка.');
   return clean;
 }
 async function digest(value) {

@@ -41,6 +41,8 @@ The notebook close-up confirms real parchment texture, a real transparent bindin
 - Filtered three approved records by nickname and confirmed only the match remained.
 - Checked browser console warnings and errors: none.
 - Verified the computed font families in-browser at 1920 × 911 and 319 × 458; all local faces reported loaded, with no horizontal overflow at either width.
+- Verified the required clan selector at 319 × 458: 35 allowed clans plus a disabled placeholder, no horizontal overflow, and the selected 32 × 24 crest loads beside the clan name.
+- Confirmed a listed clan is accepted by the local API and an arbitrary clan is rejected with HTTP 400.
 
 ## Comparison history
 

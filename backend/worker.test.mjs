@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import worker, { validate } from './worker.mjs';
+import worker, { CLANS, validate } from './worker.mjs';
 import { createDatabase } from './db-adapter.mjs';
 
-const sample = { nickname: 'Enemy', clan: 'Clan', reason: 'Сорвал согласованный игровой бой.' };
+const sample = { nickname: 'Enemy', clan: 'UAsquad', reason: 'Сорвал согласованный игровой бой.' };
 function setup() {
   const DB = createDatabase();
   const env = { DB, ADMIN_KEY: 'local-test-key-at-least-24-characters', ALLOWED_ORIGINS: 'http://localhost:8788' };
@@ -46,6 +46,8 @@ test('validation, CORS, body limits, and honeypot', async () => {
   const { DB, env, call } = setup();
   try {
     assert.throws(() => validate({ ...sample, nickname: ' ' }));
+    assert.throws(() => validate({ ...sample, clan: 'UnknownClan' }), /Выбери клан из списка/);
+    assert.equal(CLANS.length, 35);
     assert.equal((await call('/submissions', 'POST', { ...sample, reason: 'x' })).status, 400);
     assert.equal((await call('/submissions', 'POST', { ...sample, website: 'bot' })).status, 201);
     assert.equal((await call('/admin/submissions', 'GET', undefined, true)).status, 200);

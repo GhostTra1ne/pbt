@@ -86,8 +86,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 a { color: inherit; text-decoration: none; }
-button, input, textarea { font: inherit; }
-button, a, input, textarea { outline-offset: 4px; }
+button, input, textarea, select { font: inherit; }
+button, a, input, textarea, select { outline-offset: 4px; }
 button { cursor: pointer; }
 
 .site-header {
@@ -180,8 +180,8 @@ h2 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 38
 .tools-row { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin: 18px 0; }
 .search-wrap { flex: 1; max-width: 580px; }
 .search-wrap label { display: block; margin-bottom: 6px; color: #6d6152; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-input, textarea { width: 100%; border: 1px solid rgba(92,75,57,.42); border-radius: 3px; padding: 11px 13px; background: rgba(255,255,255,.28); color: inherit; }
-input:focus, textarea:focus { outline: 2px solid #9c2631; border-color: transparent; }
+input, textarea, select { width: 100%; border: 1px solid rgba(92,75,57,.42); border-radius: 3px; padding: 11px 13px; background: rgba(255,255,255,.28); color: inherit; }
+input:focus, textarea:focus, select:focus { outline: 2px solid #9c2631; border-color: transparent; }
 input::placeholder, textarea::placeholder { color: #766c5e; }
 #entry-count { color: #7b6b5b; font-size: 12px; font-weight: 700; letter-spacing: 2px; padding-bottom: 10px; }
 .entry-columns, .entry {
@@ -221,6 +221,12 @@ dialog h2 { margin: 8px 0 14px; font-family: "Ruslan Display", "Old Standard TT"
 dialog p { color: #bdb4a9; }
 dialog label { display: block; margin: 18px 0; color: #d6cabd; font-size: 14px; }
 dialog input, dialog textarea { display: block; margin-top: 7px; background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.2); }
+.clan-select-row { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 9px; margin-top: 7px; }
+.clan-crest-frame { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 3px; background: rgba(255,255,255,.045); box-shadow: inset 0 0 18px rgba(0,0,0,.45); }
+.clan-crest-frame img { image-rendering: pixelated; filter: drop-shadow(0 2px 3px #000); }
+.clan-crest-frame img:not([src]) { visibility: hidden; }
+dialog select { min-width: 0; appearance: none; padding: 11px 42px 11px 13px; border-color: rgba(255,255,255,.2); color: #eee4da; background-color: rgba(255,255,255,.07); background-image: linear-gradient(45deg, transparent 50%, #a69a8e 50%), linear-gradient(135deg, #a69a8e 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%; background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; }
+dialog select option { color: #211b17; background: #e8dcc7; }
 .close { float: right; margin: -13px -8px 0 12px; border: 0; background: none; color: #c9bfb5; font-size: 28px; }
 .trap { position: absolute; left: -10000px; }
 #request-status, #admin-status { min-height: 22px; color: #d8b6a6; }

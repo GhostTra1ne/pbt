@@ -61,6 +61,14 @@ document.querySelectorAll('dialog').forEach(dialog => {
   } });
 });
 $('search').addEventListener('input', () => { if (api) renderEntries(); });
+const clanSelect = $('clan-select');
+const clanCrest = $('clan-crest');
+function updateClanCrest() {
+  const clan = clanSelect.value;
+  if (!clan) { clanCrest.removeAttribute('src'); return; }
+  clanCrest.src = `assets/clans/${encodeURIComponent(clan)}.png`;
+}
+clanSelect.addEventListener('change', updateClanCrest);
 $('request-form').addEventListener('submit', async event => {
   event.preventDefault();
   const form = event.currentTarget;
@@ -68,7 +76,7 @@ $('request-form').addEventListener('submit', async event => {
   button.disabled = true; $('request-status').textContent = 'Передаём хранителю…';
   try {
     await request('/submissions', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(form))) });
-    form.reset(); $('request-status').textContent = 'Заявка принята. Имя появится после одобрения хранителем.';
+    form.reset(); updateClanCrest(); $('request-status').textContent = 'Заявка принята. Имя появится после одобрения хранителем.';
   } catch (error) { $('request-status').textContent = error.message; }
   finally { button.disabled = false; }
 });
