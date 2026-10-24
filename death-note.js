@@ -1,4 +1,6 @@
 'use strict';
+const telegramWebApp = window.Telegram?.WebApp;
+if (telegramWebApp) { telegramWebApp.ready(); telegramWebApp.expand(); }
 const api = (window.DEATH_NOTE_API || '').replace(/\/$/, '');
 const $ = (id) => document.getElementById(id);
 let entries = [];

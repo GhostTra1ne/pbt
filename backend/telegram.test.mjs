@@ -18,8 +18,14 @@ async function setup(run) {
   };
   try { await run({ env, calls, DB }); } finally { globalThis.fetch = original; DB.close(); }
 }
+function callbackData(env, data, from = admin, secret = env.TELEGRAM_WEBHOOK_SECRET, chat = admin) {
+  return new Request('https://worker.test/telegram/webhook', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Telegram-Bot-Api-Secret-Token': secret }, body: JSON.stringify({ callback_query: { id: 'query-1', from: { id: Number(from) }, data, message: { message_id: 99, chat: { id: Number(chat), type: 'private' }, text: 'pending', reply_markup: { inline_keyboard: [[{}]] } } } }) });
+}
 function callback(env, action = 'a', from = admin, secret = env.TELEGRAM_WEBHOOK_SECRET, chat = admin) {
-  return new Request('https://worker.test/telegram/webhook', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Telegram-Bot-Api-Secret-Token': secret }, body: JSON.stringify({ callback_query: { id: 'query-1', from: { id: Number(from) }, data: `dn:${action}:${id}`, message: { message_id: 99, chat: { id: Number(chat), type: 'private' }, text: 'pending', reply_markup: { inline_keyboard: [[{}]] } } } }) });
+  return callbackData(env, `dn:${action}:${id}`, from, secret, chat);
+}
+function start(env, from = admin, chat = from) {
+  return new Request('https://worker.test/telegram/webhook', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Telegram-Bot-Api-Secret-Token': env.TELEGRAM_WEBHOOK_SECRET }, body: JSON.stringify({ message: { message_id: 1, from: { id: Number(from) }, chat: { id: Number(chat), type: 'private' }, text: '/start' } }) });
 }
 test('notification contains the three application fields and valid approve/reject buttons, delivered once', async () => setup(async ({ env, calls }) => {
   await notify(env, id); await notify(env, id);
@@ -48,6 +54,34 @@ test('Telegram approval publishes; duplicate rejection cannot reverse it', async
 }));
 test('Telegram rejection keeps entry private', async () => setup(async ({ env }) => {
   await worker.fetch(callback(env, 'r'), env, {});
+  assert.deepEqual(await (await worker.fetch(new Request('https://worker.test/entries'), env, {})).json(), []);
+}));
+test('ordinary users only receive the Mini App; owner receives the admin panel', async () => setup(async ({ env, calls }) => {
+  await worker.fetch(start(env, '555'), env, {});
+  const publicMessage = calls.at(-1).body;
+  assert.equal(publicMessage.chat_id, 555);
+  assert.equal(publicMessage.reply_markup.inline_keyboard.length, 1);
+  assert.equal(publicMessage.reply_markup.inline_keyboard[0][0].web_app.url, 'https://pussyboys.team/death-note.html');
+  assert.equal(JSON.stringify(publicMessage.reply_markup).includes('callback_data'), false);
+  await worker.fetch(start(env), env, {});
+  const adminMessage = calls.at(-1).body;
+  const adminButtons = adminMessage.reply_markup.inline_keyboard.flat();
+  assert.ok(adminButtons.some(button => button.callback_data === 'dn:p:0'));
+  assert.ok(adminButtons.some(button => button.callback_data === 'dn:e:0'));
+  assert.ok(adminButtons.some(button => button.web_app?.url === 'https://pussyboys.team/death-note.html'));
+}));
+test('owner can list and soft-delete published entries through Telegram', async () => setup(async ({ env, calls, DB }) => {
+  await DB.prepare("UPDATE submissions SET status='approved',reviewed_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=?").bind(id).run();
+  await worker.fetch(callbackData(env, 'dn:e:0'), env, {});
+  const list = calls.find(call => call.method === 'editMessageText');
+  assert.match(list.body.text, /Enemy/);
+  assert.ok(list.body.reply_markup.inline_keyboard.flat().some(button => button.callback_data === `dn:x:${id}`));
+  await worker.fetch(callback(env, 'x'), env, {});
+  const confirmation = calls.filter(call => call.method === 'editMessageText').at(-1);
+  assert.ok(confirmation.body.reply_markup.inline_keyboard.flat().some(button => button.callback_data === `dn:d:${id}`));
+  await worker.fetch(callback(env, 'd'), env, {});
+  const row = (await DB.prepare('SELECT deleted_at FROM submissions WHERE id=?').bind(id).all()).results[0];
+  assert.ok(row.deleted_at);
   assert.deepEqual(await (await worker.fetch(new Request('https://worker.test/entries'), env, {})).json(), []);
 }));
 test('failed delivery remains in retry queue; cron sends it later', async () => setup(async ({ env, calls, DB }) => {
