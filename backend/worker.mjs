@@ -1,3 +1,4 @@
+import { notify, handleUpdate } from './telegram.mjs';
 const limits = { nickname: [1, 40], server: [1, 60], clan: [0, 60], reason: [10, 1500], evidence: [0, 500], reporter: [1, 40] };
 export function validate(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Некорректная заявка.');
@@ -26,7 +27,29 @@ async function authorized(request, env) {
   for (let i = 0; i < actual.length; i++) diff |= actual[i] ^ expected[i];
   return diff === 0;
 }
+async function readJSON(request, maxBytes = 12000) {
+  const reader = request.body?.getReader();
+  if (!reader) throw Object.assign(new Error('Пустой запрос.'), { status: 400 });
+  let size = 0; const chunks = [];
+  while (true) {
+    const { value, done } = await reader.read(); if (done) break;
+    size += value.byteLength;
+    if (size > maxBytes) { await reader.cancel(); throw Object.assign(new Error('Запрос слишком большой.'), { status: 413 }); }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(size); let offset = 0;
+  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
+  try { return JSON.parse(new TextDecoder().decode(bytes)); }
+  catch { throw Object.assign(new Error('Некорректный JSON.'), { status: 400 }); }
+}
 export default {
+  async scheduled(_event, env, ctx) {
+    if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_ADMIN_ID) return;
+    ctx.waitUntil((async () => {
+      const { results } = await env.DB.prepare("SELECT id FROM submissions WHERE status='pending' AND telegram_message_id IS NULL ORDER BY created_at ASC LIMIT 10").all();
+      await Promise.all(results.map(entry => notify(env, entry.id)));
+    })());
+  },
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin');
     const allowed = (env.ALLOWED_ORIGINS || '').split(',').map(v => v.trim());
@@ -37,26 +60,24 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...headers, 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Max-Age': '600' } });
     const path = new URL(request.url).pathname.replace(/\/$/, '') || '/';
     try {
+      if (request.method === 'POST' && path === '/telegram/webhook') {
+        const secret = env.TELEGRAM_WEBHOOK_SECRET;
+        if (!secret || secret.length < 24) return json({ error: 'Telegram не настроен.' }, 503);
+        const actual = await digest(request.headers.get('X-Telegram-Bot-Api-Secret-Token') || '');
+        const expected = await digest(secret);
+        if (actual.some((byte, i) => byte !== expected[i])) return json({ error: 'Недопустимый запрос.' }, 403);
+        const update = await readJSON(request, 20000);
+        if (!update || typeof update !== 'object') return json({ error: 'Некорректное обновление.' }, 400);
+        await handleUpdate(update, env);
+        return json({ ok: true });
+      }
       if (request.method === 'GET' && path === '/entries') {
         const result = await env.DB.prepare("SELECT id, nickname, server, clan, reason, reviewed_at FROM submissions WHERE status = 'approved' ORDER BY reviewed_at DESC, id DESC LIMIT 1000").all();
         return json(result.results);
       }
       if (request.method === 'POST' && path === '/submissions') {
         if (!request.headers.get('Content-Type')?.includes('application/json')) return json({ error: 'Ожидается JSON.' }, 415);
-        // Read with a hard limit even when Content-Length is missing or incorrect.
-        const reader = request.body?.getReader();
-        if (!reader) return json({ error: 'Пустая заявка.' }, 400);
-        let size = 0; const chunks = [];
-        while (true) {
-          const { value, done } = await reader.read(); if (done) break;
-          size += value.byteLength;
-          if (size > 12000) { await reader.cancel(); return json({ error: 'Заявка слишком большая.' }, 413); }
-          chunks.push(value);
-        }
-        const bytes = new Uint8Array(size); let offset = 0;
-        for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
-        let input;
-        try { input = JSON.parse(new TextDecoder().decode(bytes)); } catch { return json({ error: 'Некорректный JSON.' }, 400); }
+        const input = await readJSON(request);
         if (input?.website) return json({ ok: true }, 201);
         let data;
         try { data = validate(input); } catch (error) { return json({ error: error.message }, 400); }
@@ -71,12 +92,7 @@ export default {
           env.DB.prepare('DELETE FROM rate_limits WHERE bucket < ?').bind(bucket - 24)
         ]);
         if (!results[1].meta.changes) return json({ error: 'Не более трёх заявок в час. Попробуй позже.' }, 429);
-        if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) {
-          ctx.waitUntil(fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: `Новая заявка в Тетрадь смерти\nНик: ${data.nickname}\nСервер: ${data.server}\nАвтор: ${data.reporter}\n\n${data.reason}\n\nРассмотреть: ${env.SITE_URL || 'https://pussyboys.team/death-note.html'}` })
-          }).then(r => { if (!r.ok) console.error('Telegram notification failed:', r.status); }).catch(() => console.error('Telegram notification unavailable')));
-        }
+        if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_ADMIN_ID) ctx.waitUntil(notify(env, id));
         return json({ ok: true, id }, 201);
       }
       if (path.startsWith('/admin/')) {
@@ -94,6 +110,9 @@ export default {
         }
       }
       return json({ error: 'Страница не найдена.' }, 404);
-    } catch { console.error('Death Note request failed'); return json({ error: 'Архив временно недоступен. Попробуй позже.' }, 503); }
+    } catch (error) {
+      if (error.status === 400 || error.status === 413) return json({ error: error.message }, error.status);
+      console.error('Death Note request failed'); return json({ error: 'Архив временно недоступен. Попробуй позже.' }, 503);
+    }
   }
 };
