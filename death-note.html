@@ -6,9 +6,9 @@
   <title>Тетрадь смерти — Pussy Boys Team</title>
   <meta name="description" content="Игровая тетрадь противников Pussy Boys Team на сервере Lu4 Black. Записи публикуются после проверки хранителем.">
   <link rel="icon" href="favicon.png">
-  <link rel="stylesheet" href="death-note.css?v=20261024-9">
+  <link rel="stylesheet" href="death-note.css?v=20261024-10">
   <script src="death-note-config.js" defer></script>
-  <script src="death-note.js?v=20261024-3" defer></script>
+  <script src="death-note.js?v=20261024-4" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -117,7 +117,10 @@
 
   <dialog id="admin-dialog" aria-labelledby="admin-title"><div class="admin-body"><button class="close" aria-label="Закрыть">×</button><p class="eyebrow">ЗАКРЫТЫЙ АРХИВ</p><h2 id="admin-title">Хранитель тетради</h2>
     <form id="login-form"><label>Ключ хранителя<input name="key" type="password" required autocomplete="current-password"></label><button class="primary">Открыть заявки</button></form>
-    <p id="admin-status" role="status"></p><div id="pending"></div><button id="logout" class="text-button" hidden>Выйти</button>
+    <p id="admin-status" role="status"></p>
+    <section class="admin-section" id="pending-section" hidden><h3>Ожидают решения <span id="pending-count"></span></h3><div id="pending"></div></section>
+    <section class="admin-section" id="published-section" hidden><h3>Вписаны в тетрадь <span id="published-count"></span></h3><div id="published"></div></section>
+    <button id="logout" class="text-button" hidden>Выйти</button>
   </div></dialog>
 </body>
 </html>

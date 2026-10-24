@@ -94,29 +94,53 @@ $('request-form').addEventListener('submit', async event => {
   } catch (error) { $('request-status').textContent = error.message; }
   finally { button.disabled = false; }
 });
-async function loadPending() {
+function adminEntry(entry, className) {
+  const article = node('article', '', className);
+  article.append(node('h3', `Ник: ${entry.nickname}`), node('p', `Клан: ${entry.clan || 'Без клана'}`), node('p', `Причина почему пидорас: ${entry.reason}`));
+  return article;
+}
+async function loadAdmin() {
   const keyAtRequest = adminKey;
-  const pending = await request('/admin/submissions', {}, true);
+  const [pending, published] = await Promise.all([request('/admin/submissions', {}, true), request('/admin/entries', {}, true)]);
   if (!adminKey || adminKey !== keyAtRequest) return;
-  $('pending').replaceChildren();
-  $('admin-status').textContent = pending.length ? `Ожидают решения: ${pending.length}` : 'Все заявки рассмотрены.';
+  $('pending').replaceChildren(); $('published').replaceChildren();
+  $('pending-section').hidden = false; $('published-section').hidden = false;
+  $('pending-count').textContent = pending.length;
+  $('published-count').textContent = published.length;
+  $('admin-status').textContent = `Новых заявок: ${pending.length}. В тетради: ${published.length}.`;
   $('login-form').hidden = true; $('logout').hidden = false;
+  if (!pending.length) $('pending').append(node('p', 'Все заявки рассмотрены.', 'admin-empty'));
   pending.forEach(entry => {
-    const article = node('article', '', 'pending-entry');
-    article.append(node('h3', `Ник: ${entry.nickname}`), node('p', `Клан: ${entry.clan || 'Без клана'}`), node('p', `Причина почему пидорас: ${entry.reason}`));
+    const article = adminEntry(entry, 'pending-entry');
     const actions = node('div', '', 'actions');
     for (const [action, label] of [['approve', 'Вписать в тетрадь'], ['reject', 'Отклонить']]) {
       const button = node('button', label);
+      if (action === 'reject') button.className = 'secondary-button';
       button.addEventListener('click', async () => {
         actions.querySelectorAll('button').forEach(b => b.disabled = true);
         try {
           await request(`/admin/submissions/${entry.id}/${action}`, { method: 'POST', body: '{}' }, true);
-          await loadPending(); await loadEntries();
+          await loadAdmin(); await loadEntries();
         } catch (error) { $('admin-status').textContent = error.message; actions.querySelectorAll('button').forEach(b => b.disabled = false); }
       });
       actions.append(button);
     }
     article.append(actions); $('pending').append(article);
+  });
+  if (!published.length) $('published').append(node('p', 'В тетради пока нет записей.', 'admin-empty'));
+  published.forEach(entry => {
+    const article = adminEntry(entry, 'published-entry');
+    const actions = node('div', '', 'actions');
+    const button = node('button', 'Удалить из тетради', 'danger-button');
+    button.addEventListener('click', async () => {
+      if (!window.confirm(`Удалить ${entry.nickname} из тетради?`)) return;
+      button.disabled = true;
+      try {
+        await request(`/admin/entries/${entry.id}/remove`, { method: 'POST', body: '{}' }, true);
+        await loadAdmin(); await loadEntries();
+      } catch (error) { $('admin-status').textContent = error.message; button.disabled = false; }
+    });
+    actions.append(button); article.append(actions); $('published').append(article);
   });
 }
 $('login-form').addEventListener('submit', async event => {
@@ -124,11 +148,11 @@ $('login-form').addEventListener('submit', async event => {
   const form = event.currentTarget;
   adminKey = new FormData(form).get('key');
   const button = form.querySelector('button'); button.disabled = true;
-  try { await loadPending(); form.reset(); }
+  try { await loadAdmin(); form.reset(); }
   catch (error) { adminKey = ''; $('admin-status').textContent = error.message; }
   finally { button.disabled = false; }
 });
-function logout() { adminKey = ''; $('pending').replaceChildren(); $('admin-status').textContent = ''; $('login-form').hidden = false; $('logout').hidden = true; $('login-form').reset(); }
+function logout() { adminKey = ''; $('pending').replaceChildren(); $('published').replaceChildren(); $('pending-section').hidden = true; $('published-section').hidden = true; $('admin-status').textContent = ''; $('login-form').hidden = false; $('logout').hidden = true; $('login-form').reset(); }
 $('logout').addEventListener('click', logout);
 $('admin-dialog').addEventListener('close', logout);
 loadEntries();

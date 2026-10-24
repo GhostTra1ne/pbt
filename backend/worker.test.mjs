@@ -29,6 +29,13 @@ test('submission stays private until approval; private fields never appear publi
     const published = await (await call('/entries')).json();
     assert.equal(published[0].nickname, sample.nickname); assert.equal(published[0].server, 'Lu4 · Black');
     assert.equal('reporter' in published[0], false); assert.equal('evidence' in published[0], false);
+    const adminEntries = await (await call('/admin/entries', 'GET', undefined, true)).json();
+    assert.equal(adminEntries.length, 1); assert.equal(adminEntries[0].id, id);
+    assert.equal((await call(`/admin/entries/${id}/remove`, 'POST', {}, false)).status, 401);
+    assert.equal((await call(`/admin/entries/${id}/remove`, 'POST', {}, true)).status, 200);
+    assert.deepEqual(await (await call('/entries')).json(), []);
+    assert.deepEqual(await (await call('/admin/entries', 'GET', undefined, true)).json(), []);
+    assert.equal((await call(`/admin/entries/${id}/remove`, 'POST', {}, true)).status, 409);
     assert.equal((await call(`/admin/submissions/${id}/reject`, 'POST', {}, true)).status, 409);
   } finally { DB.close(); }
 });

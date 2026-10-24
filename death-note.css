@@ -234,12 +234,17 @@ dialog select option { color: #211b17; background: #e8dcc7; }
 .close { float: right; margin: -13px -8px 0 12px; border: 0; background: none; color: #c9bfb5; font-size: 28px; }
 .trap { position: absolute; left: -10000px; }
 #request-status, #admin-status { min-height: 22px; color: #d8b6a6; }
-.pending-entry { padding: 20px 0; border-top: 1px solid rgba(255,255,255,.16); }
-.pending-entry h3 { margin-bottom: 8px; overflow-wrap: anywhere; }
-.pending-entry p { margin: 5px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.admin-section { margin-top: 25px; }
+.admin-section > h3 { display: flex; justify-content: space-between; gap: 12px; margin: 0 0 8px; color: #cbbfb3; font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; }
+.admin-section > h3 span { color: #9d8d7f; }
+.admin-empty { margin: 0; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.16); }
+.pending-entry, .published-entry { padding: 20px 0; border-top: 1px solid rgba(255,255,255,.16); }
+.pending-entry h3, .published-entry h3 { margin-bottom: 8px; overflow-wrap: anywhere; }
+.pending-entry p, .published-entry p { margin: 5px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .actions { display: flex; gap: 12px; margin-top: 15px; }
 .actions button { padding: 10px 14px; border: 1px solid #a05259; background: #6c1821; color: #fff; }
-.actions button:last-child { background: transparent; }
+.actions .secondary-button { background: transparent; }
+.actions .danger-button { background: #7d101c; border-color: #c34752; }
 .actions button:disabled { opacity: .4; }
 
 @media (max-width: 1050px) {

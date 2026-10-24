@@ -70,7 +70,7 @@ export default {
         return json({ ok: true });
       }
       if (request.method === 'GET' && path === '/entries') {
-        const result = await env.DB.prepare("SELECT id, nickname, server, clan, reason, reviewed_at FROM submissions WHERE status = 'approved' ORDER BY reviewed_at DESC, id DESC LIMIT 1000").all();
+        const result = await env.DB.prepare("SELECT id, nickname, server, clan, reason, reviewed_at FROM submissions WHERE status = 'approved' AND deleted_at IS NULL ORDER BY reviewed_at DESC, id DESC LIMIT 1000").all();
         return json(result.results);
       }
       if (request.method === 'POST' && path === '/submissions') {
@@ -98,6 +98,16 @@ export default {
         if (request.method === 'GET' && path === '/admin/submissions') {
           const result = await env.DB.prepare("SELECT * FROM submissions WHERE status='pending' ORDER BY created_at ASC LIMIT 500").all();
           return json(result.results);
+        }
+        if (request.method === 'GET' && path === '/admin/entries') {
+          const result = await env.DB.prepare("SELECT id,nickname,server,clan,reason,reviewed_at FROM submissions WHERE status='approved' AND deleted_at IS NULL ORDER BY reviewed_at DESC,id DESC LIMIT 1000").all();
+          return json(result.results);
+        }
+        const removeMatch = path.match(/^\/admin\/entries\/([a-f0-9-]{36})\/remove$/);
+        if (request.method === 'POST' && removeMatch) {
+          const result = await env.DB.prepare("UPDATE submissions SET deleted_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=? AND status='approved' AND deleted_at IS NULL").bind(removeMatch[1]).run();
+          if (!result.meta.changes) return json({ error: 'Запись уже удалена или не найдена.' }, 409);
+          return json({ ok: true });
         }
         const match = path.match(/^\/admin\/submissions\/([a-f0-9-]{36})\/(approve|reject)$/);
         if (request.method === 'POST' && match) {

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS submissions (
   status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','approved','rejected')),
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   reviewed_at TEXT,
+  deleted_at TEXT,
   telegram_message_id INTEGER,
   telegram_claimed_at INTEGER
 );
