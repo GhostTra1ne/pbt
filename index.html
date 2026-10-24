@@ -4,7 +4,8 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pussy Boys Team</title>
+<title>Pussy Boys Team — UaSquad | Lineage 2</title>
+<meta name="description" content="Pussy Boys Team / UaSquad: состав КП в Lineage 2, набор игроков и Тетрадь смерти." />
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;scroll-behavior:smooth}
@@ -356,10 +357,15 @@ body.modal-lock{
     grid-template-columns:1fr;
   }
 }
+
+.death-link{align-self:center;margin-right:20px;color:#f4d8cb;text-decoration:none;border:1px solid #a66458;padding:12px 18px;border-radius:6px;background:#241414}
+.death-link:hover,.death-link:focus-visible{background:#482020;outline:2px solid #e2bba3;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}canvas{display:none}}
+@media(max-width:480px){.topbar{align-items:center}.topbar img{width:115px}.death-link{font-size:14px;margin-right:10px;padding:10px}}
 </style>
 </head>
 <body>
-<audio id="metalHitAudio" preload="auto">
+<audio id="metalHitAudio" preload="none">
   <source src="metal-hit.mp3" type="audio/mpeg">
 </audio>
 <canvas id="bgFx"></canvas>
@@ -372,32 +378,33 @@ body.modal-lock{
 
 <div class="page">
   <div class="topbar">
+    <a class="death-link" href="death-note.html">☠ Тетрадь смерти</a>
     <button class="about-link" id="aboutOpenBtn" aria-label="О нас">
-      <img src="about.png" alt="О нас" />
+      <img src="assets/about.webp" alt="О нас" />
     </button>
   </div>
 
   <div class="stage">
     <div class="banner-wrap" id="bannerWrap">
-      <img class="banner-img" src="banner.png" alt="Pussy Boys Team" />
+      <img fetchpriority="high" decoding="async" width="1919" height="768" class="banner-img" src="assets/banner.webp" alt="Pussy Boys Team" />
       <canvas class="banner-fx" id="bannerFx"></canvas>
     </div>
 
     <div class="about-board reveal" id="about-block">
-      <img src="wood.png" alt="Доска Кто мы" />
+      <img loading="lazy" decoding="async" src="assets/wood.webp" alt="Доска Кто мы" />
     </div>
 
-    <img class="gold reveal" src="gold.png" alt="Золотой состав" />
+    <img loading="lazy" decoding="async" class="gold reveal" src="assets/gold.webp" alt="Золотой состав" />
 
     <div class="tag-flag-wrap reveal">
       <div class="side-flag left">
-        <div class="flag-wrap"><img src="flag.png" alt="UaSquad flag" onerror="this.style.display='none'"></div>
+        <div class="flag-wrap"><img src="assets/flag.webp" alt="UaSquad flag" onerror="this.style.display='none'"></div>
       </div>
       <div class="tag-label-box">
         <div class="tag-label">TAG: UaSquad</div>
       </div>
       <div class="side-flag right">
-        <div class="flag-wrap"><img src="flag.png" alt="UaSquad flag" onerror="this.style.display='none'"></div>
+        <div class="flag-wrap"><img src="assets/flag.webp" alt="UaSquad flag" onerror="this.style.display='none'"></div>
       </div>
     </div>
 
@@ -416,7 +423,7 @@ body.modal-lock{
       </div>
     </div>
 
-    <img class="apply reveal" src="apply.png" alt="Подать заявку" id="applyOpenBtn" />
+    <img loading="lazy" decoding="async" class="apply reveal" src="assets/apply.webp" alt="Подать заявку" id="applyOpenBtn" />
   </div>
 </div>
 
@@ -504,7 +511,7 @@ body.modal-lock{
 const PLACEHOLDER_SVG = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='500' height='800' viewBox='0 0 500 800'><defs><linearGradient id='g' x1='0' x2='0' y1='0' y2='1'><stop offset='0%' stop-color='#4a2a1d'/><stop offset='100%' stop-color='#1b0f0d'/></linearGradient></defs><rect width='100%' height='100%' rx='26' fill='url(#g)'/><rect x='14' y='14' width='472' height='772' rx='18' fill='none' stroke='#c69557' stroke-width='3' opacity='0.75'/><text x='50%' y='46%' text-anchor='middle' fill='#f2d19b' font-size='34' font-family='Georgia'>PLACEHOLDER</text><text x='50%' y='53%' text-anchor='middle' fill='#c69557' font-size='20' font-family='Georgia'>Добавь PNG карточку</text></svg>`);
 
 const players = [
-  { name:'Hex', role:'EE', image:['hex.png','Hex.png','HEX.png'], sound:['hex.mp3','Hex.mp3','HEX.mp3'], text:`По факту он не играет в Lineage 2 — он там работает без выходных, отпуска и шансов на нормальную жизнь.
+  { name:'Hex', role:'EE', image:['assets/hex.webp','Hex.png','HEX.png'], sound:['hex.mp3','Hex.mp3','HEX.mp3'], text:`По факту он не играет в Lineage 2 — он там работает без выходных, отпуска и шансов на нормальную жизнь.
 Глава Pussy Boys Team — человек, который может за 5 минут придумать план уровня “мы сейчас разъебём сервер”, а через 10 минут вся пачка уже лежит ебалом в пол. Стратег, аналитик и главный поставщик хуйни  одновременно.
 Выглядит “довольно красиво как для урода” — это когда ты смотришь и вроде норм, а потом понимаешь, что тебя где-то наебали, но не можешь объяснить где именно.
 Человек важности уровня главы государства. Даже донатит в игру через Пенсионный фонд.
@@ -512,7 +519,7 @@ const players = [
 Любит делать сайты про Pussy Boys больше, чем играть, потому что там хотя бы можно нажать “обновить” и не получить пизды от рандомов.`, notes:`● Много пиздит
 ● Любит точность и порядок
 ● Смешно шутит` },
-  { name:'IIay3a', role:'Гладиатор', image:['pauza.png','Pauza.png','PAUZA.png'], sound:['IIay3a.mp3','iIay3a.mp3','IIAY3A.mp3'], text:` Смотри внимательно.
+  { name:'IIay3a', role:'Гладиатор', image:['assets/pauza.webp','Pauza.png','PAUZA.png'], sound:['IIay3a.mp3','iIay3a.mp3','IIAY3A.mp3'], text:` Смотри внимательно.
 Ты видишь перед собой игрока?
 Или ебучую радиостанцию без кнопки выключить?
 Можешь представить, сколько слов он сказал за день?
@@ -525,7 +532,7 @@ const players = [
 Этот человек… Потенциальный операционный директор "Суши Клаб Солёное" и двигатель пачки. `, notes:`● Говорит правду в лоб
 ● Жёсткий приколист
 ● Есть бронь`, lore:`Гладиатор, который считает, что лучшая защита — это ещё одна атака.` },
-  { name:'Anamay', role:'Биш', image:['anamay.png','Anamay.png','ANAMAY.png'], sound:['anamay.mp3','Anamay.mp3','ANAMAY.mp3'], text:`Родился, вырос, всё как у людей. Переехал в Германию, стал правых взглядов. Мечтал стать художником. Потом работа, семья, ребёнок.
+  { name:'Anamay', role:'Биш', image:['assets/anamay.webp','Anamay.png','ANAMAY.png'], sound:['anamay.mp3','Anamay.mp3','ANAMAY.mp3'], text:`Родился, вырос, всё как у людей. Переехал в Германию, стал правых взглядов. Мечтал стать художником. Потом работа, семья, ребёнок.
 Долгое время играл в Lineage. Стабильно, уверенно, понимал игру, чувствовал тайминги. Уважаемый человек в пачке.
 Но в какой-то момент ему стало мало.
 Бросил всё. Жену. Ребёнка. Пак.  И ушёл в Доту. Просто потому что внутри сидело твёрдое: «Я могу больше».
@@ -533,9 +540,9 @@ const players = [
 Говорят, первые полгода он почти не выходил из дома. Тренировки по 12–14 часов. Восемь реплей в день минимум. Анализ, тайминги, механика, макро. Всё заново. Как будто начинал жизнь с чистого листа.
 Сейчас ему уже за сорок, а он всё ещё лезет вверх. Медленно, тяжело, но без остановки. Иногда в голосе проскальзывает усталость, но в глазах — тот же огонь.
 Легенда пачки. Настоящий талант. Человек, который в том возрасте, когда большинство уже давно смирилось, решил, что его главная история ещё не написана.`, notes:`● Умный.
-● Вес 126 килограмм. 
+● Вес 126 килограмм.
 ● Моральный урон команде.`, lore:`Если враг думал, что бой уже выигран, значит он просто не заметил Anamay.` },
-  { name:'Marcus', role:'Гладиатор', image:['Marcus.png','marcus.png','MARCUS.png'], sound:['marcus.mp3','Marcus.mp3','MARCUS.mp3'], text:`Предприимчивый мужик. Владелец сети ресторанов, добрый, отзывчивый, всегда поможет советом или баблом. Служил в спецназе, участвовал в нескольких антитеррористических операциях. Больше трёхсот подтверждённых убийств. Готовили к партизанской войне, был лучшим снайпером во всей армии.
+  { name:'Marcus', role:'Гладиатор', image:['assets/Marcus.webp','marcus.png','MARCUS.png'], sound:['marcus.mp3','Marcus.mp3','MARCUS.mp3'], text:`Предприимчивый мужик. Владелец сети ресторанов, добрый, отзывчивый, всегда поможет советом или баблом. Служил в спецназе, участвовал в нескольких антитеррористических операциях. Больше трёхсот подтверждённых убийств. Готовили к партизанской войне, был лучшим снайпером во всей армии.
 И как, сука, в эту хуйню можно поверить?
 А потом ты заходишь на прайм и всё сразу становится на место.
 Этот гений прижимает ТП в тот момент, когда ты только карту открыл. Подождать команду? Да хуй там. Он уже влетел в толпу с криком «ЩА Я ЧЕКНУ!» посреди Хатума, будто это зачистка блокпоста.
@@ -544,19 +551,19 @@ const players = [
 Легенда. Полностью невменяемый. Но свой до костей.`, notes:`●Богатый.
  ●Лудик.
  ●Штурмовик.`, lore:`Лор для Marcus.` },
-  { name:'DeMuerte', role:'Берс', image:['DeMuerte.png','demuerte.png','DEMUERTE.png'], sound:['demuerte.mp3','DeMuerte.mp3','DEMUERTE.mp3'], text:`Буйный. Сука, реально шарит в игре. В реале — спортивный здоровяк, качается, морда кирпичом, взгляд такой, что сразу хочется встать по стойке «смирно». А в Л2 он берсерк. Настоящий. Знает, что делать, всегда. Даже когда все вокруг в панике — DeMuerte уже летит вперёд.
+  { name:'DeMuerte', role:'Берс', image:['assets/DeMuerte.webp','demuerte.png','DEMUERTE.png'], sound:['demuerte.mp3','DeMuerte.mp3','DEMUERTE.mp3'], text:`Буйный. Сука, реально шарит в игре. В реале — спортивный здоровяк, качается, морда кирпичом, взгляд такой, что сразу хочется встать по стойке «смирно». А в Л2 он берсерк. Настоящий. Знает, что делать, всегда. Даже когда все вокруг в панике — DeMuerte уже летит вперёд.
 В своё время он закосплеил Итачи из Учиха. Перерезал половину своего клана, чтобы получить мангёку шаринган. Не в шутку. Реально. Чат в ахуе, а Ярик стоит в чёрном плаще, с красными глазами и спокойно говорит: «Аматерасу».  Резкий, как удар серпом по яйцам, и жесткий, как удар молотом.`, notes:`●Рост 2м+.
 ●Единственный с пачки кто сделает больше 10 отжиманий.
 ●Носит травмат. `, lore:`Лор для DeMuerte.` },
-  { name:'RazvalEbal', role:'СВС', image:['razvalebal.png','RazvalEbal.png','RAZVALEBAL.png'], sound:['razvalebal.mp3','RazvalEbal.mp3','RAZVALEBAL.mp3'], text:`Кирюха, блять, RazvalEbal —  это диагноз.
+  { name:'RazvalEbal', role:'СВС', image:['assets/razvalebal.webp','RazvalEbal.png','RAZVALEBAL.png'], sound:['razvalebal.mp3','RazvalEbal.mp3','RAZVALEBAL.mp3'], text:`Кирюха, блять, RazvalEbal —  это диагноз.
 Решил, что прайм с 23:00 — «так удобнее». Стоит на макросе, как NPC из таверны, только вместо реплик — вечное «я щас, сек».
 Ты орёшь: «КИРЮХА, ДЕНСЫ!», а он где-то жрёт, курит или просто исчез в астрале. Наш SWS по паспорту, а в душе — ДД. Мечтает резать, мечтает дамажить.Но в  файтах — бог. Танцы ложатся идеально, тайминги секунда в секунду, пальцы всё помнят, даже когда мозг давно в отключке. В чате тишина, в ТС пустота, а Кирюха уже в Расте строит хату с соломы и печкой. Lineage для него — так, промежуточная станция. Мечтает лутать бочки и рубить деревья.
 Кофе готовит только из свежайшего молока и каждый раз идёт доить Вола, перед этим хорошенько его выебав.
 Но когда начинается настоящий пиздец и всё горит — RazvalEbal возвращается. Как призрак. Как баг в системе. И начинает ебать. И ты сидишь и думаешь: «Сука, как?!»
 А это просто Кирюха АФК-легенда. Наш RazvalEbal.`, notes:`●Пунктуальный.
-●Стабильный. 
+●Стабильный.
 ●Надёжный. `, lore:`Лор для RazvalEbal.` },
-  { name:'KingGayOrgyes', role:'ШК', image:['Player7.png','player7.png','Player7.PNG','player7.PNG'], sound:['Player7.mp3','player7.mp3','Player7.MP3','player7.MP3'], text:`Коля — танк, блять, не человек, а Шрек из болота. 
+  { name:'KingGayOrgyes', role:'ШК', image:['assets/Player7.webp','player7.png','Player7.PNG','player7.PNG'], sound:['Player7.mp3','player7.mp3','Player7.MP3','player7.MP3'], text:`Коля — танк, блять, не человек, а Шрек из болота.
 Рыгает в микрофон — у всего КП микроинфаркт.
 «ХРРРГКХААААА» — и это, сука, не шутка. Это официальный саундтрек каждого файта. Колин фирменный трек.
 Несёт такую хуйню, что даже священник в голос крестится. Фразы без начала, без конца, без смысла.
@@ -566,19 +573,19 @@ const players = [
 Попробуй забрать его из пака хоть на один прайм — и сразу поймёшь, кто вас всех, сука, держал.
 Коля — это рёв, шум, ад, пердёж и хаос.
 Это танк, который переживёт  и конец света.
-Не любить его почти невозможно.  
-А без него пачка — уже не пачка. Просто мясо на убой.`, notes:`●Отрыжка года. 
-●Признаный кулинар. 
+Не любить его почти невозможно.
+А без него пачка — уже не пачка. Просто мясо на убой.`, notes:`●Отрыжка года.
+●Признаный кулинар.
 ●Нестандартное мышление. `, lore:`Лор для седьмого персонажа.` },
-  { name:'Oni', role:'ПП', image:['Player8.png','player8.png','Player8.PNG','player8.PNG'], sound:['Player8.mp3','player8.mp3','Player8.MP3','player8.MP3'], text:`Солыч (Oni) — это, блять, не ПП, это тамада  и серверный Казанова в одном флаконе.
+  { name:'Oni', role:'ПП', image:['assets/Player8.webp','player8.png','Player8.PNG','player8.PNG'], sound:['Player8.mp3','player8.mp3','Player8.MP3','player8.MP3'], text:`Солыч (Oni) — это, блять, не ПП, это тамада  и серверный Казанова в одном флаконе.
 В реале — пиздец как телок ебёт. Направо, налево, по кругу. Бухает, курит шмаль пачками, но при этом остаётся самым общительным и добрым  на районе. За словом в карман никогда не лезет, языком мелет так, что любая тёлка тает за пять минут.
-А в игре — полный пиздец. Ломает пушки как спички. Четыре заточки на +6 уже отправил в утиль, просто потому что. Заточка под синькой, руки трясутся, глаза красные — «ещё разик, сука, повезёт». Не повезло. 
+А в игре — полный пиздец. Ломает пушки как спички. Четыре заточки на +6 уже отправил в утиль, просто потому что. Заточка под синькой, руки трясутся, глаза красные — «ещё разик, сука, повезёт». Не повезло.
 Безвести пропавший.. В паке крик: «СОЛИЧ, ДАЙ ПОВ, БЛЯДЬ!», а его нет. Ни онлайна, ни сигнала. То телки, то бухло, то «жизнь пошла по-новому».
 В итоге в конце совсем забил на игру. Просто исчез.
 Но пока был — был легендой. С ним всегда было весело, шумно и опасно. Может минуснуть пушку в самый важный момент, но когда заходил в форму — ПОВы летели так, что враги горели.`, notes:`●Ушел за хлебом, не вернулся.
 ●Секс машина.
 ●Не верит ни единому нашему слову.` , lore:`Лор для восьмого персонажа.` },
-  { name:'Pheonix', role:'ФС', image:['Player9.png','player9.png','Player9.PNG','player9.PNG'], sound:['Player9.mp3','player9.mp3','Player9.MP3','player9.MP3'], text:`Димон Pheonix — это сука резервный ядерный двигатель.
+  { name:'Pheonix', role:'ФС', image:['Player9.png','assets/player9.webp','Player9.PNG','player9.PNG'], sound:['Player9.mp3','player9.mp3','Player9.MP3','player9.MP3'], text:`Димон Pheonix — это сука резервный ядерный двигатель.
 Есть свет — он уже в игре. Без «ой, щас», без отмазок, без нытья. Просто заходит и начинает всех ебать.
 Даст пизды любому бывшему  — молча, жёстко. Без лишних слов, без драмы в чате. Просто факт.
 Он не гавкает в войс, не строит из себя героя, не разъёбывает клавиатуру. Он просто делает работу. И делает её так, что вопросов не остаётся.
@@ -587,18 +594,18 @@ const players = [
 Просто заходит и зачищает всю эту хуйню.`, notes:`●Топ прайм на сервере.
 ●Аааллё
 ●Жертва катакомб.` , lore:`Лор для девятого персонажа.` },
-  { name:'Lynx', role:'Джуд', image:['Player10.png','player10.png','Player10.PNG','player10.PNG'], sound:['Player10.mp3','player10.mp3','Player10.MP3','player10.MP3'], text:`Дима Линкс — нормальный тип, без гнили и без понтов.
+  { name:'Lynx', role:'Джуд', image:['Player10.png','assets/player10.webp','Player10.PNG','player10.PNG'], sound:['Player10.mp3','player10.mp3','Player10.MP3','player10.MP3'], text:`Дима Линкс — нормальный тип, без гнили и без понтов.
 Семейный, вежливый, из тех, кто не пиздит, а просто живёт. Добрый, спокойный, без лишних движений и драм. Не лезет в срачи, не меряется хуями, не строит из себя альфу. Просто свой. Просто нормальный член команды, блять.
 Правда...Кнопку УД он ищет, как клад в старой жопе.
 Когда надо жать — он думает.
 Когда уже поздно — он вспоминает.
 Но при всём при этом — золото, а не человек.
 Просто стабильный, адекватный пацан, с которым хочется играть даже без эпиков и жирных сумок.
-Не мог много играть, часто пропадал, но по своим причинам!  
+Не мог много играть, часто пропадал, но по своим причинам!
 С такими людьми пак чувствуется как семья, а не просто сборная солянка.
 Линкс — это не про хайп, не про понты и не про «я тут главный».
-Это про спокойствие, стабильность и человеческий базар.`, notes:`●Дает речку в файте. 
-●Узнал за уд в конце сезона. 
+Это про спокойствие, стабильность и человеческий базар.`, notes:`●Дает речку в файте.
+●Узнал за уд в конце сезона.
 ●Добряк.`, lore:`Лор для десятого персонажа.` }
 ];
 
@@ -716,6 +723,7 @@ function buildCards() {
     img.className = 'card';
     img.dataset.index = index;
     img.draggable = false;
+    img.decoding = 'async';
     tryImageSources(img, player.image, PLACEHOLDER_SVG);
 
     shell.addEventListener('click', () => {
@@ -931,10 +939,11 @@ window.addEventListener('mouseleave', () => {
 });
 
 (function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const wrap = document.getElementById('bannerWrap');
   const canvas = document.getElementById('bannerFx');
   const ctx = canvas.getContext('2d');
-  let dpr = Math.max(1, window.devicePixelRatio || 1);
+  let dpr = Math.min(1.5, Math.max(1, window.devicePixelRatio || 1));
   let w = 0;
   let h = 0;
   const particles = [];
@@ -943,14 +952,14 @@ window.addEventListener('mouseleave', () => {
     const rect = wrap.getBoundingClientRect();
     w = Math.floor(rect.width);
     h = Math.floor(rect.height);
-    dpr = Math.max(1, window.devicePixelRatio || 1);
+    dpr = Math.min(1.5, Math.max(1, window.devicePixelRatio || 1));
     canvas.width = Math.floor(w * dpr);
     canvas.height = Math.floor(h * dpr);
     canvas.style.width = w + 'px';
     canvas.style.height = h + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     particles.length = 0;
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 60; i++) {
       particles.push({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -964,6 +973,7 @@ window.addEventListener('mouseleave', () => {
   }
 
   function draw() {
+    if (document.hidden) { requestAnimationFrame(draw); return; }
     ctx.clearRect(0, 0, w, h);
     for (const p of particles) {
       p.drift += 0.02;
@@ -986,9 +996,10 @@ window.addEventListener('mouseleave', () => {
 })();
 
 (function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('bgFx');
   const ctx = canvas.getContext('2d');
-  let dpr = Math.max(1, window.devicePixelRatio || 1);
+  let dpr = Math.min(1.5, Math.max(1, window.devicePixelRatio || 1));
   let w = 0, h = 0;
   const ash = [];
   const smoke = [];
@@ -999,7 +1010,7 @@ window.addEventListener('mouseleave', () => {
   function resize() {
     w = window.innerWidth;
     h = window.innerHeight;
-    dpr = Math.max(1, window.devicePixelRatio || 1);
+    dpr = Math.min(1.5, Math.max(1, window.devicePixelRatio || 1));
     canvas.width = Math.floor(w * dpr);
     canvas.height = Math.floor(h * dpr);
     canvas.style.width = w + 'px';
@@ -1010,7 +1021,7 @@ window.addEventListener('mouseleave', () => {
     smoke.length = 0;
     sparks.length = 0;
 
-    for (let i = 0; i < 180; i++) {
+    for (let i = 0; i < 90; i++) {
       ash.push({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -1069,6 +1080,7 @@ window.addEventListener('mouseleave', () => {
   }
 
   function animate() {
+    if (document.hidden) { requestAnimationFrame(animate); return; }
     ctx.clearRect(0, 0, w, h);
     ctx.save();
     ctx.translate((mouseX - w / 2) * 0.005, (mouseY - h / 2) * 0.005);
