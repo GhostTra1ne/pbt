@@ -1,5 +1,5 @@
 import { notify, handleUpdate } from './telegram.mjs';
-export const CLANS = Object.freeze(['4SV', 'AGR', 'AGR_L2team', 'AGR_Style', 'BreganDaerthe', 'Carnival', 'Cats', 'Dwarf', 'ENCOM', 'Euphoria', 'GATEINHELL', 'KakBogPoshlet', 'Kingdom', 'L2Commerce', 'Myxomop', 'OldSchool', 'PARAGONE', 'PixelBrothers', 'PixelHunters', 'PixelKnights', 'PixelLegends', 'pvpformat', 'ROADTOHELL', 'SEKTA', 'Skufs', 'spidersense', 'SvetlanaPetrovna', 'TrashTeam', 'UAsquad', 'UAsquadII', 'Ukraine', 'VORDEX', 'xCore', 'zero', 'zeroeu']);
+export const CLANS = Object.freeze(['Без клана', '4SV', 'AGR', 'AGR_L2team', 'AGR_Style', 'BreganDaerthe', 'Carnival', 'Cats', 'Dwarf', 'ENCOM', 'Euphoria', 'GATEINHELL', 'KakBogPoshlet', 'Kingdom', 'L2Commerce', 'Myxomop', 'OldSchool', 'PARAGONE', 'PixelBrothers', 'PixelHunters', 'PixelKnights', 'PixelLegends', 'pvpformat', 'ROADTOHELL', 'SEKTA', 'Skufs', 'spidersense', 'SvetlanaPetrovna', 'TrashTeam', 'UAsquad', 'UAsquadII', 'Ukraine', 'VORDEX', 'xCore', 'zero', 'zeroeu']);
 const clanSet = new Set(CLANS);
 const limits = { nickname: [1, 40], clan: [1, 60], reason: [10, 1500] };
 export function validate(input) {
@@ -51,7 +51,16 @@ export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin');
     const allowed = (env.ALLOWED_ORIGINS || '').split(',').map(v => v.trim());
-    const headers = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Vary': 'Origin' };
+    const headers = {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'Content-Security-Policy': "default-src 'none'; base-uri 'none'; frame-ancestors 'none'",
+      'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+      'Referrer-Policy': 'no-referrer',
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'Vary': 'Origin'
+    };
     if (origin && allowed.includes(origin)) headers['Access-Control-Allow-Origin'] = origin;
     const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers });
     if (origin && !allowed.includes(origin)) return json({ error: 'Этот сайт не имеет доступа.' }, 403);

@@ -28,15 +28,21 @@ function entryCell(label, value, className) {
 function clanCell(clan) {
   const name = clan || 'Без клана';
   const cell = node('div', '', 'entry-cell entry-clan');
-  const crest = document.createElement('img');
-  crest.className = 'entry-clan-crest';
-  crest.src = `assets/clans/${encodeURIComponent(name)}.png`;
-  crest.alt = '';
-  crest.width = 32;
-  crest.height = 24;
-  crest.loading = 'lazy';
-  crest.addEventListener('error', () => { crest.hidden = true; cell.classList.add('no-crest'); });
-  cell.append(node('span', 'Клан', 'entry-label'), crest, node('span', name, 'entry-clan-name'));
+  cell.append(node('span', 'Клан', 'entry-label'));
+  if (name !== 'Без клана') {
+    const crest = document.createElement('img');
+    crest.className = 'entry-clan-crest';
+    crest.src = `assets/clans/${encodeURIComponent(name)}.png`;
+    crest.alt = '';
+    crest.width = 32;
+    crest.height = 24;
+    crest.loading = 'lazy';
+    crest.addEventListener('error', () => { crest.hidden = true; cell.classList.add('no-crest'); });
+    cell.append(crest);
+  } else {
+    cell.classList.add('no-crest');
+  }
+  cell.append(node('span', name, 'entry-clan-name'));
   return cell;
 }
 function renderEntries() {
@@ -81,7 +87,7 @@ const clanSelect = $('clan-select');
 const clanCrest = $('clan-crest');
 function updateClanCrest() {
   const clan = clanSelect.value;
-  if (!clan) { clanCrest.removeAttribute('src'); return; }
+  if (!clan || clan === 'Без клана') { clanCrest.removeAttribute('src'); return; }
   clanCrest.src = `assets/clans/${encodeURIComponent(clan)}.png`;
 }
 clanSelect.addEventListener('change', updateClanCrest);

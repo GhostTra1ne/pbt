@@ -54,13 +54,18 @@ test('validation, CORS, body limits, and honeypot', async () => {
   try {
     assert.throws(() => validate({ ...sample, nickname: ' ' }));
     assert.throws(() => validate({ ...sample, clan: 'UnknownClan' }), /Выбери клан из списка/);
-    assert.equal(CLANS.length, 35);
+    assert.equal(CLANS.length, 36);
+    assert.equal(validate({ ...sample, clan: 'Без клана' }).clan, 'Без клана');
     assert.equal((await call('/submissions', 'POST', { ...sample, reason: 'x' })).status, 400);
     assert.equal((await call('/submissions', 'POST', { ...sample, website: 'bot' })).status, 201);
     assert.equal((await call('/admin/submissions', 'GET', undefined, true)).status, 200);
     const denied = await worker.fetch(new Request('http://localhost/entries', { headers: { Origin: 'https://bad.example' } }), env, {});
     assert.equal(denied.status, 403); assert.equal(denied.headers.has('Access-Control-Allow-Origin'), false);
     const preflight = await call('/submissions', 'OPTIONS'); assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers.get('X-Frame-Options'), 'DENY');
+    assert.equal(preflight.headers.get('Referrer-Policy'), 'no-referrer');
+    assert.match(preflight.headers.get('Content-Security-Policy'), /default-src 'none'/);
+    assert.match(preflight.headers.get('Permissions-Policy'), /camera=\(\)/);
     assert.equal((await call('/submissions', 'POST', { ...sample, reason: 'x'.repeat(13000) })).status, 413);
     assert.equal((await call('/admin/submissions', 'GET', undefined, true)).headers.get('Cache-Control'), 'no-store');
   } finally { DB.close(); }

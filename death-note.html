@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Тетрадь смерти — Pussy Boys Team</title>
   <meta name="description" content="Игровая тетрадь противников Pussy Boys Team на сервере Lu4 Black. Записи публикуются после проверки хранителем.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' https://telegram.org; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://pbt-death-note.mrhally007.workers.dev; upgrade-insecure-requests">
   <link rel="icon" href="favicon.png">
   <link rel="stylesheet" href="death-note.css?v=20261024-10">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="death-note-config.js" defer></script>
-  <script src="death-note.js?v=20261024-5" defer></script>
+  <script src="death-note.js?v=20261024-6" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="nav-shell">
       <a class="brand" href="./"><strong>Pussy</strong><span>Boys Team</span></a>
-      <nav aria-label="Разделы страницы"><a class="active" href="#notebook">Тетрадь</a><a href="#rules">Правила</a><a href="#notebook">Архив</a></nav>
+      <nav aria-label="Разделы страницы"><a class="active" href="#notebook">Тетрадь</a></nav>
       <button class="primary header-cta" id="open-request">Вписать имя</button>
     </div>
   </header>
@@ -73,6 +75,7 @@
         <span class="clan-crest-frame" aria-hidden="true"><img id="clan-crest" alt="" width="32" height="24"></span>
         <select id="clan-select" name="clan" required>
           <option value="" selected disabled>Выбери клан</option>
+          <option>Без клана</option>
           <option>4SV</option>
           <option>AGR</option>
           <option>AGR_L2team</option>
