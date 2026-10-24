@@ -18,6 +18,11 @@ function node(tag, value, className) {
   if (className) el.className = className;
   return el;
 }
+function entryCell(label, value, className) {
+  const cell = node('div', '', `entry-cell ${className}`);
+  cell.append(node('span', label, 'entry-label'), node('span', value, 'entry-value'));
+  return cell;
+}
 function renderEntries() {
   const search = $('search').value.trim().toLocaleLowerCase('ru');
   const filtered = entries.filter(e => [e.nickname, e.clan, e.server].join(' ').toLocaleLowerCase('ru').includes(search));
@@ -27,11 +32,13 @@ function renderEntries() {
   $('entry-count').textContent = `${count} ${word}`;
   $('list-status').textContent = filtered.length ? '' : search ? 'Имя не найдено.' : 'В тетради пока нет имён. Первую страницу откроет хранитель.';
   $('list-status').hidden = filtered.length > 0;
-  filtered.forEach((entry, i) => {
+  filtered.forEach(entry => {
     const article = node('article', '', 'entry');
-    const heading = node('div', '', 'entry-head');
-    heading.append(node('h3', `Ник: ${entry.nickname}`), node('span', String(i + 1).padStart(2, '0'), 'entry-index'));
-    article.append(heading, node('div', `Клан: ${entry.clan || 'Без клана'}`, 'meta'), node('p', `Причина почему пидорас: ${entry.reason}`));
+    article.append(
+      entryCell('Ник', entry.nickname, 'entry-nick'),
+      entryCell('Клан', entry.clan || 'Без клана', 'entry-clan'),
+      entryCell('Причина почему пидорас', entry.reason, 'entry-reason')
+    );
     $('entries').append(article);
   });
 }

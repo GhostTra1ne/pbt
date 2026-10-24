@@ -1,46 +1,84 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Тетрадь смерти — Pussy Boys Team</title>
-  <meta name="description" content="Игровая книга противников КП UaSquad в Lineage 2. Записи появляются после одобрения хранителя.">
-  <link rel="icon" href="favicon.png"><link rel="stylesheet" href="death-note.css?v=20261024-3">
-  <script src="death-note-config.js" defer></script><script src="death-note.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Тетрадь смерти — PBT / UaSquad</title>
+  <meta name="description" content="Игровая тетрадь противников PBT / UaSquad на сервере Lu4 Black. Записи публикуются после проверки хранителем.">
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="death-note.css?v=20261024-4">
+  <script src="death-note-config.js" defer></script>
+  <script src="death-note.js" defer></script>
 </head>
 <body>
-  <header><a class="brand" href="./">PBT <span>/ UaSquad</span></a><a href="./">← Вернуться в КП</a></header>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="./"><strong>PBT</strong><span>/ UaSquad</span></a>
+      <nav aria-label="Разделы страницы"><a class="active" href="#notebook">Тетрадь</a><a href="#rules">Правила</a><a href="#notebook">Архив</a></nav>
+      <button class="primary header-cta" id="open-request">Вписать имя</button>
+    </div>
+  </header>
+
   <main>
-    <section class="intro">
-      <div class="eyebrow">LINEAGE II · LU4 · СЕРВЕР BLACK</div>
-      <h1>DEATH<br><span>NOTE</span><i aria-hidden="true">死</i></h1>
-      <p class="subtitle">Тетрадь смерти</p>
-      <p class="lead">Некоторые ники мы запоминаем.<br>Остальные — записываем.</p>
-      <button class="primary" id="open-request">Вписать имя <span aria-hidden="true">↗</span></button>
-      <div class="rules"><span>01</span><p>Укажи игровой ник, клан и причину.</p><span>02</span><p>Хранитель проверит заявку.</p><span>03</span><p>Одобренное имя останется в тетради.</p></div>
-      <p class="fine">Всё происходящее в тетради относится к PvP в Lineage 2.</p>
-    </section>
-    <section class="book" aria-labelledby="book-title">
-      <div class="server-ribbon"><span>LINEAGE II</span><strong>LU4 · СЕРВЕР BLACK</strong></div>
-      <div class="book-top"><span>DEATH NOTE</span><span id="entry-count">АРХИВ КП</span></div>
-      <div class="paper">
-        <div class="page-heading"><div><div class="eyebrow">НИКТО НЕ ЗАБЫТ</div><h2 id="book-title">Имена в тетради</h2></div><span class="seal" aria-hidden="true">死</span></div>
-        <label class="search-label" for="search">Найти запись</label><input id="search" type="search" placeholder="Ник или клан…" maxlength="100">
-        <p id="list-status" role="status">Открываем тетрадь…</p><div id="entries"></div>
-        <div class="page-bottom"><span>Только одобренные записи</span><span>— I —</span></div>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">LINEAGE II · LU4 · СЕРВЕР BLACK</p>
+        <h1 id="hero-title">DEATH NOTE</h1>
+        <img class="title-brush" src="assets/death-note-brush-v2.webp" alt="" aria-hidden="true">
+        <p class="subtitle">Тетрадь смерти</p>
+        <p class="lead">Некоторые ники не забывают. Их записывают.</p>
       </div>
     </section>
+
+    <div class="archive-shell">
+      <section class="notebook" id="notebook" aria-labelledby="book-title">
+        <img class="binding" src="assets/death-note-binding-cropped-v2.webp" alt="" aria-hidden="true">
+        <div class="page-heading">
+          <div><p class="page-kicker">АРХИВ PBT / UASQUAD</p><h2 id="book-title">Имена в тетради</h2></div>
+          <div class="server-mark" aria-label="Сервер Lu4 Black"><span>LU4</span><strong>BLACK</strong></div>
+        </div>
+
+        <div class="tools-row">
+          <div class="search-wrap"><label for="search">Найти запись</label><input id="search" type="search" placeholder="Ник или клан…" maxlength="100"></div>
+          <span id="entry-count">АРХИВ КП</span>
+        </div>
+
+        <div class="entry-columns" aria-hidden="true"><span>Ник</span><span>Клан</span><span>Причина почему пидорас</span></div>
+        <p id="list-status" role="status">Открываем тетрадь…</p>
+        <div id="entries"></div>
+        <div class="page-bottom"><span>Только одобренные записи</span><span>LU4 · BLACK</span></div>
+      </section>
+
+      <aside class="rules-card" id="rules" aria-labelledby="rules-title">
+        <p class="eyebrow">ПОРЯДОК ЗАПИСИ</p>
+        <h2 id="rules-title">Правила<br>тетради</h2>
+        <ol>
+          <li><span>01</span><div><strong>Ник</strong><p>Точный игровой ник персонажа.</p></div></li>
+          <li><span>02</span><div><strong>Клан</strong><p>Название клана или «Без клана».</p></div></li>
+          <li><span>03</span><div><strong>Причина</strong><p>Коротко и честно: почему пидорас.</p></div></li>
+        </ol>
+        <p class="moderation-note">Каждая заявка сначала приходит хранителю в Telegram.</p>
+      </aside>
+    </div>
   </main>
-  <footer><span>PUSSY BOYS TEAM</span><button class="text-button" id="open-admin">Вход хранителя</button><span>У каждой записи есть причина.</span></footer>
+
+  <footer><span>PUSSY BOYS TEAM</span><button class="text-button" id="open-admin">Вход хранителя</button><span>Все записи относятся только к PvP в Lineage 2.</span></footer>
+
   <dialog id="request-dialog" aria-labelledby="request-title"><form id="request-form">
-    <button class="close" type="button" aria-label="Закрыть">×</button><div class="eyebrow">НОВАЯ СТРАНИЦА</div><h2 id="request-title">Вписать имя</h2><p>Запись увидит хранитель. В общую тетрадь она попадёт после одобрения.</p>
+    <button class="close" type="button" aria-label="Закрыть">×</button><p class="eyebrow">НОВАЯ СТРАНИЦА</p><h2 id="request-title">Вписать имя</h2><p>Запись появится в тетради после проверки хранителем.</p>
     <label>Ник: *<input name="nickname" required maxlength="40" autocomplete="off"></label>
     <label>Клан:<input name="clan" maxlength="60" autocomplete="off"></label>
     <label>Причина почему пидорас: *<textarea name="reason" required minlength="10" maxlength="1500" rows="5" placeholder="Опиши игровой конфликт"></textarea></label>
     <label class="trap" aria-hidden="true">Не заполнять<input name="website" tabindex="-1" autocomplete="off"></label>
-    <button class="primary" type="submit">Передать хранителю ↗</button><p id="request-status" role="status" aria-live="polite"></p>
+    <button class="primary" type="submit">Передать хранителю</button><p id="request-status" role="status" aria-live="polite"></p>
   </form></dialog>
-  <dialog id="admin-dialog" aria-labelledby="admin-title"><div class="admin-body"><button class="close" aria-label="Закрыть">×</button><div class="eyebrow">ЗАКРЫТЫЙ АРХИВ</div><h2 id="admin-title">Хранитель тетради</h2>
+
+  <dialog id="admin-dialog" aria-labelledby="admin-title"><div class="admin-body"><button class="close" aria-label="Закрыть">×</button><p class="eyebrow">ЗАКРЫТЫЙ АРХИВ</p><h2 id="admin-title">Хранитель тетради</h2>
     <form id="login-form"><label>Ключ хранителя<input name="key" type="password" required autocomplete="current-password"></label><button class="primary">Открыть заявки</button></form>
     <p id="admin-status" role="status"></p><div id="pending"></div><button id="logout" class="text-button" hidden>Выйти</button>
   </div></dialog>
-</body></html>
+</body>
+</html>
