@@ -107,7 +107,7 @@ button { cursor: pointer; }
   align-items: center;
   gap: 28px;
 }
-.brand { display: inline-flex; align-items: baseline; gap: 9px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 24px; font-weight: 600; }
+.brand { display: inline-flex; align-items: baseline; gap: 9px; white-space: nowrap; font-family: "Cormorant Garamond", Georgia, serif; font-size: 24px; font-weight: 600; }
 .brand strong { color: #c5182b; font-weight: 700; letter-spacing: .5px; }
 .brand span { color: #eee9df; font-weight: 600; }
 nav { display: flex; align-self: stretch; }
@@ -251,7 +251,7 @@ dialog select option { color: #211b17; background: #e8dcc7; }
   body { background-position: center 54px; background-size: auto 760px; background-attachment: scroll; }
   .nav-shell { min-height: 54px; grid-template-columns: 1fr auto; }
   nav { display: none; }
-  .brand { font-size: 19px; }
+  .brand { gap: 5px; font-size: 16px; }
   .header-cta { min-width: 0; padding: 10px 14px; }
   .hero { min-height: 255px; padding-bottom: 34px; }
   h1 { font-size: clamp(52px, 15vw, 82px); }
