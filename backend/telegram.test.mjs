@@ -58,12 +58,17 @@ test('Telegram rejection keeps entry private', async () => setup(async ({ env })
 }));
 test('ordinary users only receive the Mini App; owner receives the admin panel', async () => setup(async ({ env, calls }) => {
   await worker.fetch(start(env, '555'), env, {});
+  assert.equal(calls.at(-1).method, 'sendPhoto');
   const publicMessage = calls.at(-1).body;
   assert.equal(publicMessage.chat_id, 555);
+  assert.equal(publicMessage.photo, 'https://pussyboys.team/assets/death-note-welcome.png');
+  assert.match(publicMessage.caption, /Добро пожаловать в Тетрадь смерти Pussy Boys Team/);
+  assert.match(publicMessage.caption, /Lineage 2 · Lu4 · сервер Black/);
   assert.equal(publicMessage.reply_markup.inline_keyboard.length, 1);
   assert.equal(publicMessage.reply_markup.inline_keyboard[0][0].web_app.url, 'https://pussyboys.team/death-note.html');
   assert.equal(JSON.stringify(publicMessage.reply_markup).includes('callback_data'), false);
   await worker.fetch(start(env), env, {});
+  assert.equal(calls.at(-1).method, 'sendMessage');
   const adminMessage = calls.at(-1).body;
   const adminButtons = adminMessage.reply_markup.inline_keyboard.flat();
   assert.ok(adminButtons.some(button => button.callback_data === 'dn:p:0'));

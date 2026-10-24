@@ -25,14 +25,23 @@ function siteButton(env) {
   return { text: '☠ Открыть Тетрадь смерти', web_app: { url: siteUrl(env) } };
 }
 
-async function sendHome(env, chatId, admin) {
+async function sendHome(env, chatId, admin, welcome = false) {
   const keyboard = admin ? [
     [{ text: '📨 Новые заявки', callback_data: 'dn:p:0' }, { text: '📖 Записи', callback_data: 'dn:e:0' }],
     [siteButton(env)]
   ] : [[siteButton(env)]];
   const text = admin
     ? '☠ Панель хранителя\n\nЗдесь можно принять или отклонить заявку, удалить опубликованную запись и открыть тетрадь.'
-    : '☠ Тетрадь смерти Pussy Boys Team\n\nОткрой тетрадь внутри Telegram, чтобы посмотреть записи или подать заявку.';
+    : '☠ Добро пожаловать в Тетрадь смерти Pussy Boys Team.\n\nЗдесь хранятся имена тех, кого не забывают. Открой тетрадь, чтобы посмотреть записи или подать заявку.\n\nLineage 2 · Lu4 · сервер Black';
+  if (!admin && welcome) {
+    await telegram(env, 'sendPhoto', {
+      chat_id: chatId,
+      photo: new URL('/assets/death-note-welcome.png', siteUrl(env)).toString(),
+      caption: text,
+      reply_markup: { inline_keyboard: keyboard }
+    });
+    return;
+  }
   await telegram(env, 'sendMessage', { chat_id: chatId, text, reply_markup: { inline_keyboard: keyboard } });
 }
 
@@ -94,7 +103,9 @@ export async function handleUpdate(update, env) {
   const owner = String(env.TELEGRAM_ADMIN_ID || '');
   const incoming = update.message;
   if (incoming?.chat?.type === 'private' && incoming.from?.id === incoming.chat.id) {
-    await sendHome(env, incoming.chat.id, Boolean(owner) && String(incoming.from.id) === owner);
+    const admin = Boolean(owner) && String(incoming.from.id) === owner;
+    const welcome = !admin && /^\/start(?:@\w+)?(?:\s|$)/i.test(String(incoming.text || ''));
+    await sendHome(env, incoming.chat.id, admin, welcome);
     return;
   }
 
