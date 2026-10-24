@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Тетрадь смерти — Pussy Boys Team</title>
+  <meta name="description" content="Игровая книга противников КП UaSquad в Lineage 2. Записи появляются после одобрения хранителя.">
+  <link rel="icon" href="favicon.png"><link rel="stylesheet" href="death-note.css">
+  <script src="death-note-config.js" defer></script><script src="death-note.js" defer></script>
+</head>
+<body>
+  <header><a class="brand" href="./">PBT <span>/ UaSquad</span></a><a href="./">← Вернуться в КП</a></header>
+  <main>
+    <section class="intro">
+      <div class="eyebrow">LINEAGE II · КНИГА ПАМЯТИ КП</div>
+      <h1>DEATH<br><span>NOTE</span><i aria-hidden="true">死</i></h1>
+      <p class="subtitle">Тетрадь смерти</p>
+      <p class="lead">Некоторые ники мы запоминаем.<br>Остальные — записываем.</p>
+      <button class="primary" id="open-request">Вписать имя <span aria-hidden="true">↗</span></button>
+      <div class="rules"><span>01</span><p>Укажи игровой ник, сервер и причину.</p><span>02</span><p>Хранитель проверит заявку.</p><span>03</span><p>Одобренное имя останется в тетради.</p></div>
+      <p class="fine">Всё происходящее в тетради относится к PvP в Lineage 2.</p>
+    </section>
+    <section class="book" aria-labelledby="book-title">
+      <div class="book-top"><span>DEATH NOTE</span><span id="entry-count">АРХИВ КП</span></div>
+      <div class="paper">
+        <div class="page-heading"><div><div class="eyebrow">НИКТО НЕ ЗАБЫТ</div><h2 id="book-title">Имена в тетради</h2></div><span class="seal" aria-hidden="true">死</span></div>
+        <label class="search-label" for="search">Найти запись</label><input id="search" type="search" placeholder="Ник, клан или сервер…" maxlength="100">
+        <p id="list-status" role="status">Открываем тетрадь…</p><div id="entries"></div>
+        <div class="page-bottom"><span>Только одобренные записи</span><span>— I —</span></div>
+      </div>
+    </section>
+  </main>
+  <footer><span>PUSSY BOYS TEAM</span><button class="text-button" id="open-admin">Вход хранителя</button><span>У каждой записи есть причина.</span></footer>
+  <dialog id="request-dialog" aria-labelledby="request-title"><form id="request-form">
+    <button class="close" type="button" aria-label="Закрыть">×</button><div class="eyebrow">НОВАЯ СТРАНИЦА</div><h2 id="request-title">Вписать имя</h2><p>Запись увидит хранитель. В общую тетрадь она попадёт после одобрения.</p>
+    <div class="fields"><label>Ник персонажа *<input name="nickname" required maxlength="40" autocomplete="off"></label><label>Сервер *<input name="server" required maxlength="60"></label></div>
+    <label>Клан<input name="clan" maxlength="60"></label><label>Что произошло? *<textarea name="reason" required minlength="10" maxlength="1500" rows="4" placeholder="Опиши игровой конфликт"></textarea></label>
+    <label>Ссылка на доказательства<input name="evidence" type="url" maxlength="500" placeholder="https://…"></label><label>Твой игровой ник *<input name="reporter" required maxlength="40"></label>
+    <label class="trap" aria-hidden="true">Не заполнять<input name="website" tabindex="-1" autocomplete="off"></label>
+    <p class="fine">Указывай игровые данные. Ссылка на доказательства и ник автора доступны только хранителю.</p>
+    <button class="primary" type="submit">Передать хранителю ↗</button><p id="request-status" role="status" aria-live="polite"></p>
+  </form></dialog>
+  <dialog id="admin-dialog" aria-labelledby="admin-title"><div class="admin-body"><button class="close" aria-label="Закрыть">×</button><div class="eyebrow">ЗАКРЫТЫЙ АРХИВ</div><h2 id="admin-title">Хранитель тетради</h2>
+    <form id="login-form"><label>Ключ хранителя<input name="key" type="password" required autocomplete="current-password"></label><button class="primary">Открыть заявки</button></form>
+    <p id="admin-status" role="status"></p><div id="pending"></div><button id="logout" class="text-button" hidden>Выйти</button>
+  </div></dialog>
+</body></html>

@@ -1,0 +1,18 @@
+name = "pbt-death-note"
+account_id = "58c9d75325c0f993be3900185a3305e1"
+workers_dev = true
+preview_urls = false
+main = "worker.mjs"
+compatibility_date = "2026-10-01"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+ALLOWED_ORIGINS = "https://pussyboys.team,https://ghosttra1ne.github.io,http://localhost:8788,http://127.0.0.1:8788"
+SITE_URL = "https://pussyboys.team/death-note.html"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pbt-death-note"
+database_id = "d25132ee-f429-441d-a2bf-b318812db27c"
