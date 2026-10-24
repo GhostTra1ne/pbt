@@ -30,8 +30,8 @@ function renderEntries() {
   filtered.forEach((entry, i) => {
     const article = node('article', '', 'entry');
     const heading = node('div', '', 'entry-head');
-    heading.append(node('h3', entry.nickname), node('span', String(i + 1).padStart(2, '0'), 'entry-index'));
-    article.append(heading, node('div', [entry.server, entry.clan || 'Без клана'].join(' / '), 'meta'), node('p', entry.reason));
+    heading.append(node('h3', `Ник: ${entry.nickname}`), node('span', String(i + 1).padStart(2, '0'), 'entry-index'));
+    article.append(heading, node('div', `Клан: ${entry.clan || 'Без клана'}`, 'meta'), node('p', `Причина почему пидорас: ${entry.reason}`));
     $('entries').append(article);
   });
 }
