@@ -1,18 +1,13 @@
 import { notify, handleUpdate } from './telegram.mjs';
-const limits = { nickname: [1, 40], server: [1, 60], clan: [0, 60], reason: [10, 1500], evidence: [0, 500], reporter: [1, 40] };
+const limits = { nickname: [1, 40], clan: [0, 60], reason: [10, 1500] };
 export function validate(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Некорректная заявка.');
-  const clean = {};
+  const clean = { server: 'Lu4 · Black', evidence: '', reporter: '' };
   for (const [key, [min, max]] of Object.entries(limits)) {
     const value = input[key] === undefined ? '' : input[key];
     if (typeof value !== 'string') throw new Error('Все поля должны содержать текст.');
     clean[key] = value.trim();
     if (clean[key].length < min || clean[key].length > max) throw new Error(`Проверь поле ${key}: от ${min} до ${max} символов.`);
-  }
-  if (clean.evidence) {
-    let url;
-    try { url = new URL(clean.evidence); } catch { throw new Error('Некорректная ссылка.'); }
-    if (!['https:', 'http:'].includes(url.protocol)) throw new Error('Ссылка должна начинаться с https:// или http://.');
   }
   return clean;
 }

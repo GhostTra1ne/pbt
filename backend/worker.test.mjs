@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import worker, { validate } from './worker.mjs';
 import { createDatabase } from './db-adapter.mjs';
 
-const sample = { nickname: 'Enemy', server: 'MasterWork', clan: 'Clan', reason: 'Сорвал согласованный игровой бой.', reporter: 'Tester', evidence: 'https://example.com/proof' };
+const sample = { nickname: 'Enemy', clan: 'Clan', reason: 'Сорвал согласованный игровой бой.' };
 function setup() {
   const DB = createDatabase();
   const env = { DB, ADMIN_KEY: 'local-test-key-at-least-24-characters', ALLOWED_ORIGINS: 'http://localhost:8788' };
@@ -22,11 +22,12 @@ test('submission stays private until approval; private fields never appear publi
     assert.deepEqual(await (await call('/entries')).json(), []);
     assert.equal((await call('/admin/submissions')).status, 401);
     const pending = await (await call('/admin/submissions', 'GET', undefined, true)).json();
-    assert.equal(pending.length, 1); assert.equal(pending[0].evidence, sample.evidence);
+    assert.equal(pending.length, 1); assert.equal(pending[0].server, 'Lu4 · Black');
+    assert.equal(pending[0].evidence, ''); assert.equal(pending[0].reporter, '');
     assert.equal((await call(`/admin/submissions/${id}/approve`, 'POST', {}, false)).status, 401);
     assert.equal((await call(`/admin/submissions/${id}/approve`, 'POST', {}, true)).status, 200);
     const published = await (await call('/entries')).json();
-    assert.equal(published[0].nickname, sample.nickname);
+    assert.equal(published[0].nickname, sample.nickname); assert.equal(published[0].server, 'Lu4 · Black');
     assert.equal('reporter' in published[0], false); assert.equal('evidence' in published[0], false);
     assert.equal((await call(`/admin/submissions/${id}/reject`, 'POST', {}, true)).status, 409);
   } finally { DB.close(); }
@@ -44,7 +45,6 @@ test('reject does not publish; rate limit prevents fourth submission', async () 
 test('validation, CORS, body limits, and honeypot', async () => {
   const { DB, env, call } = setup();
   try {
-    assert.throws(() => validate({ ...sample, evidence: 'javascript:alert(1)' }));
     assert.throws(() => validate({ ...sample, nickname: ' ' }));
     assert.equal((await call('/submissions', 'POST', { ...sample, reason: 'x' })).status, 400);
     assert.equal((await call('/submissions', 'POST', { ...sample, website: 'bot' })).status, 201);

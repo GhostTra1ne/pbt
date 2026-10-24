@@ -11,7 +11,7 @@ export async function telegram(env, method, body) {
 }
 export function message(entry, status = 'pending') {
   const title = { pending: '☠ Новая заявка в Тетрадь смерти', approved: '✅ Вписан в тетрадь', rejected: '❌ Заявка отклонена' }[status];
-  return `${title}\n\nНик: ${entry.nickname}\nСервер: ${entry.server}\nКлан: ${entry.clan || '—'}\nАвтор: ${entry.reporter}\n\n${entry.reason}${entry.evidence ? '\n\nДоказательства: ' + entry.evidence : ''}`;
+  return `${title}\n\nНик: ${entry.nickname}\nКлан: ${entry.clan || '—'}\nПричина почему пидорас: ${entry.reason}`;
 }
 export async function notify(env, id) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_ADMIN_ID) return;

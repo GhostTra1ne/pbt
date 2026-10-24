@@ -74,11 +74,7 @@ async function loadPending() {
   $('login-form').hidden = true; $('logout').hidden = false;
   pending.forEach(entry => {
     const article = node('article', '', 'pending-entry');
-    article.append(node('h3', entry.nickname), node('p', `${entry.server} / ${entry.clan || 'Без клана'}`), node('p', entry.reason), node('p', `Автор: ${entry.reporter}`));
-    if (entry.evidence && /^https?:\/\//i.test(entry.evidence)) {
-      const link = node('a', 'Открыть доказательства ↗');
-      link.href = entry.evidence; link.target = '_blank'; link.rel = 'noopener noreferrer'; article.append(link);
-    }
+    article.append(node('h3', `Ник: ${entry.nickname}`), node('p', `Клан: ${entry.clan || 'Без клана'}`), node('p', `Причина почему пидорас: ${entry.reason}`));
     const actions = node('div', '', 'actions');
     for (const [action, label] of [['approve', 'Вписать в тетрадь'], ['reject', 'Отклонить']]) {
       const button = node('button', label);

@@ -33,11 +33,10 @@
   <footer><span>PUSSY BOYS TEAM</span><button class="text-button" id="open-admin">Вход хранителя</button><span>У каждой записи есть причина.</span></footer>
   <dialog id="request-dialog" aria-labelledby="request-title"><form id="request-form">
     <button class="close" type="button" aria-label="Закрыть">×</button><div class="eyebrow">НОВАЯ СТРАНИЦА</div><h2 id="request-title">Вписать имя</h2><p>Запись увидит хранитель. В общую тетрадь она попадёт после одобрения.</p>
-    <label>Ник персонажа *<input name="nickname" required maxlength="40" autocomplete="off"></label><input name="server" type="hidden" value="Lu4 · Black">
-    <label>Клан<input name="clan" maxlength="60"></label><label>Что произошло? *<textarea name="reason" required minlength="10" maxlength="1500" rows="4" placeholder="Опиши игровой конфликт"></textarea></label>
-    <label>Ссылка на доказательства<input name="evidence" type="url" maxlength="500" placeholder="https://…"></label><label>Твой игровой ник *<input name="reporter" required maxlength="40"></label>
+    <label>Ник: *<input name="nickname" required maxlength="40" autocomplete="off"></label>
+    <label>Клан:<input name="clan" maxlength="60" autocomplete="off"></label>
+    <label>Причина почему пидорас: *<textarea name="reason" required minlength="10" maxlength="1500" rows="5" placeholder="Опиши игровой конфликт"></textarea></label>
     <label class="trap" aria-hidden="true">Не заполнять<input name="website" tabindex="-1" autocomplete="off"></label>
-    <p class="fine">Указывай игровые данные. Ссылка на доказательства и ник автора доступны только хранителю.</p>
     <button class="primary" type="submit">Передать хранителю ↗</button><p id="request-status" role="status" aria-live="polite"></p>
   </form></dialog>
   <dialog id="admin-dialog" aria-labelledby="admin-title"><div class="admin-body"><button class="close" aria-label="Закрыть">×</button><div class="eyebrow">ЗАКРЫТЫЙ АРХИВ</div><h2 id="admin-title">Хранитель тетради</h2>

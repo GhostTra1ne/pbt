@@ -8,7 +8,7 @@ const admin = '12345678';
 const id = '12345678-1234-1234-1234-123456789abc';
 async function setup(run) {
   const DB = createDatabase();
-  await DB.prepare("INSERT INTO submissions(id,nickname,server,reason,reporter) VALUES(?,?,?,?,?)").bind(id, 'Enemy', 'MW', 'Игровой конфликт для проверки.', 'Reporter').run();
+  await DB.prepare("INSERT INTO submissions(id,nickname,server,reason,reporter) VALUES(?,?,?,?,?)").bind(id, 'Enemy', 'Lu4 · Black', 'Игровой конфликт для проверки.', '').run();
   const env = { DB, TELEGRAM_BOT_TOKEN: 'fake-test-token', TELEGRAM_ADMIN_ID: admin, TELEGRAM_WEBHOOK_SECRET: 'fake-test-webhook-secret-at-least-24-chars' };
   const calls = []; const original = globalThis.fetch;
   globalThis.fetch = async (url, options) => {
@@ -21,13 +21,14 @@ async function setup(run) {
 function callback(env, action = 'a', from = admin, secret = env.TELEGRAM_WEBHOOK_SECRET, chat = admin) {
   return new Request('https://worker.test/telegram/webhook', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Telegram-Bot-Api-Secret-Token': secret }, body: JSON.stringify({ callback_query: { id: 'query-1', from: { id: Number(from) }, data: `dn:${action}:${id}`, message: { message_id: 99, chat: { id: Number(chat), type: 'private' }, text: 'pending', reply_markup: { inline_keyboard: [[{}]] } } } }) });
 }
-test('notification includes private details and valid approve/reject buttons, delivered once', async () => setup(async ({ env, calls }) => {
+test('notification contains the three application fields and valid approve/reject buttons, delivered once', async () => setup(async ({ env, calls }) => {
   await notify(env, id); await notify(env, id);
   assert.equal(calls.length, 1); assert.equal(calls[0].body.chat_id, admin);
   const buttons = calls[0].body.reply_markup.inline_keyboard[0];
   assert.equal(buttons.length, 2); assert.ok(buttons.every(b => Buffer.byteLength(b.callback_data) <= 64));
   assert.equal(calls[0].body.parse_mode, undefined);
-  assert.match(calls[0].body.text, /Автор: Reporter/);
+  assert.match(calls[0].body.text, /Ник: Enemy\nКлан: —\nПричина почему пидорас: Игровой конфликт для проверки\./);
+  assert.doesNotMatch(calls[0].body.text, /Сервер:|Автор:|Доказательства:/);
 }));
 test('webhook secret and owner identity protect moderation', async () => setup(async ({ env, calls, DB }) => {
   assert.equal((await worker.fetch(callback(env, 'a', admin, 'wrong'), env, {})).status, 403);
