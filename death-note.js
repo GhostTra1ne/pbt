@@ -5,6 +5,8 @@ const api = (window.DEATH_NOTE_API || '').replace(/\/$/, '');
 const $ = (id) => document.getElementById(id);
 let entries = [];
 let adminKey = '';
+const PAGE_SIZE = 8;
+let currentPage = 1;
 async function request(path, options = {}, admin = false) {
   if (!api) throw new Error('Приём заявок ещё не подключён. Хранитель настраивает тетрадь.');
   const response = await fetch(api + path, { ...options, headers: {
@@ -45,16 +47,50 @@ function clanCell(clan) {
   cell.append(node('span', name, 'entry-clan-name'));
   return cell;
 }
+function renderPagination(totalPages) {
+  const pagination = $('pagination');
+  pagination.replaceChildren();
+  pagination.hidden = totalPages <= 1;
+  if (totalPages <= 1) return;
+
+  const addButton = (label, page, className = '') => {
+    const button = node('button', label, className);
+    button.type = 'button';
+    button.setAttribute('aria-label', typeof label === 'number' ? `Страница ${label}` : label);
+    if (page === currentPage && typeof label === 'number') button.setAttribute('aria-current', 'page');
+    button.disabled = page === currentPage;
+    button.addEventListener('click', () => {
+      currentPage = page;
+      renderEntries();
+      $('notebook').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    pagination.append(button);
+  };
+
+  addButton('Назад', Math.max(1, currentPage - 1), 'page-arrow page-prev');
+  const pages = new Set([1, totalPages]);
+  for (let page = Math.max(1, currentPage - 1); page <= Math.min(totalPages, currentPage + 1); page++) pages.add(page);
+  let previous = 0;
+  [...pages].sort((a, b) => a - b).forEach(page => {
+    if (page - previous > 1) pagination.append(node('span', '…', 'page-gap'));
+    addButton(page, page, 'page-number');
+    previous = page;
+  });
+  addButton('Вперёд', Math.min(totalPages, currentPage + 1), 'page-arrow page-next');
+}
 function renderEntries() {
   const search = $('search').value.trim().toLocaleLowerCase('ru');
   const filtered = entries.filter(e => [e.nickname, e.clan, e.server].join(' ').toLocaleLowerCase('ru').includes(search));
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  currentPage = Math.min(currentPage, totalPages);
+  const pageEntries = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   $('entries').replaceChildren();
   const count = entries.length;
   const word = count % 10 === 1 && count % 100 !== 11 ? 'ЗАПИСЬ' : [2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100) ? 'ЗАПИСИ' : 'ЗАПИСЕЙ';
   $('entry-count').textContent = `${count} ${word}`;
   $('list-status').textContent = filtered.length ? '' : search ? 'Имя не найдено.' : 'В тетради пока нет имён. Первую страницу откроет хранитель.';
   $('list-status').hidden = filtered.length > 0;
-  filtered.forEach(entry => {
+  pageEntries.forEach(entry => {
     const article = node('article', '', 'entry');
     article.append(
       clanCell(entry.clan),
@@ -63,6 +99,7 @@ function renderEntries() {
     );
     $('entries').append(article);
   });
+  renderPagination(totalPages);
 }
 async function loadEntries() {
   if (!api) {
@@ -82,7 +119,7 @@ document.querySelectorAll('dialog').forEach(dialog => {
     if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
   } });
 });
-$('search').addEventListener('input', () => { if (api) renderEntries(); });
+$('search').addEventListener('input', () => { currentPage = 1; if (api) renderEntries(); });
 const clanSelect = $('clan-select');
 const clanCrest = $('clan-crest');
 function updateClanCrest() {
